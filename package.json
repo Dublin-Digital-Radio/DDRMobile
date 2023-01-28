@@ -10,8 +10,10 @@
     "test": "jest"
   },
   "dependencies": {
+    "airtime-pro-api": "github:DublinDigitalRadioGmail/airtime-pro-api",
     "react": "18.2.0",
-    "react-native": "0.71.1"
+    "react-native": "0.71.1",
+    "react-native-track-player": "^3.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
