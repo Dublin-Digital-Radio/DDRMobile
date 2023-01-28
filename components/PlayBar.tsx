@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
 import TrackPlayer, {
   State as TrackPlayerState,
+  Capability as TrackPlayerCapability,
 } from 'react-native-track-player';
 import airtime from 'airtime-pro-api';
 
@@ -27,6 +28,14 @@ export default function PlayBar() {
   useEffect(() => {
     (async () => {
       await TrackPlayer.setupPlayer();
+      TrackPlayer.updateOptions({
+        capabilities: [TrackPlayerCapability.Play, TrackPlayerCapability.Pause],
+
+        compactCapabilities: [
+          TrackPlayerCapability.Play,
+          TrackPlayerCapability.Pause,
+        ],
+      });
       const shows = await getShows();
       setCurrentShowTitle(shows.current.name);
     })();
@@ -37,7 +46,8 @@ export default function PlayBar() {
     if (playerState === TrackPlayerState.None) {
       await TrackPlayer.add({
         url: streamUrl,
-        title: 'DDR',
+        title: currentShowTitle,
+        artist: 'DDR',
       });
       await TrackPlayer.play();
       setButtonStatus('pause');
@@ -50,13 +60,14 @@ export default function PlayBar() {
       if (playerState === TrackPlayerState.Paused) {
         await TrackPlayer.add({
           url: streamUrl,
-          title: 'DDR',
+          title: currentShowTitle,
+          artist: 'DDR',
         });
         await TrackPlayer.play();
         setButtonStatus('pause');
       }
     }
-  }, []);
+  }, [currentShowTitle]);
 
   return (
     <View style={styles.container}>
