@@ -29,7 +29,19 @@ export default function PlayBar() {
 
   useEffect(() => {
     (async () => {
-      await TrackPlayer.setupPlayer();
+      try {
+        await TrackPlayer.setupPlayer();
+      } catch (error) {
+        if (
+          error instanceof Error &&
+          // Ignore this error when reloading the app often during development
+          error.message !==
+            'The player has already been initialized via setupPlayer.'
+        ) {
+          console.error(error);
+        }
+      }
+
       TrackPlayer.updateOptions({
         capabilities: [TrackPlayerCapability.Play, TrackPlayerCapability.Pause],
 
