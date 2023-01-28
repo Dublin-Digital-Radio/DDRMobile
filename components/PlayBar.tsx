@@ -1,8 +1,10 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
 import TrackPlayer, {
-  State as TrackPlayerState,
+  useTrackPlayerEvents,
   Capability as TrackPlayerCapability,
+  Event as TrackPlayerEvent,
+  State as TrackPlayerState,
 } from 'react-native-track-player';
 import airtime from 'airtime-pro-api';
 
@@ -41,6 +43,18 @@ export default function PlayBar() {
     })();
   }, []);
 
+  useTrackPlayerEvents([TrackPlayerEvent.PlaybackState], event => {
+    if (event.type === TrackPlayerEvent.PlaybackState) {
+      if (event.state === TrackPlayerState.Playing) {
+        setButtonStatus('pause');
+      }
+
+      if (event.state === TrackPlayerState.Paused) {
+        setButtonStatus('play');
+      }
+    }
+  });
+
   const toggleStream = useCallback(async () => {
     const playerState = await TrackPlayer.getState();
     if (playerState === TrackPlayerState.None) {
@@ -53,11 +67,12 @@ export default function PlayBar() {
       setButtonStatus('pause');
     } else {
       if (playerState === TrackPlayerState.Playing) {
-        await TrackPlayer.reset();
+        await TrackPlayer.pause();
         setButtonStatus('play');
       }
 
       if (playerState === TrackPlayerState.Paused) {
+        await TrackPlayer.reset();
         await TrackPlayer.add({
           url: streamUrl,
           title: currentShowTitle,
