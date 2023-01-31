@@ -1,11 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {AppState, Button, StyleSheet, Text, View} from 'react-native';
+import {AppState, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import TrackPlayer, {
   useTrackPlayerEvents,
   Capability as TrackPlayerCapability,
   Event as TrackPlayerEvent,
   State as TrackPlayerState,
 } from 'react-native-track-player';
+import Icon from 'react-native-vector-icons/AntDesign';
 import airtime from 'airtime-pro-api';
 
 const streamUrl =
@@ -110,7 +111,12 @@ export default function PlayBar() {
 
   return (
     <View style={styles.container}>
-      <Button title={buttonStatus} color="black" onPress={toggleStream} />
+      <TouchableOpacity onPress={toggleStream}>
+        <Icon
+          name={buttonStatus === 'play' ? 'play' : 'pausecircle'}
+          size={40}
+        />
+      </TouchableOpacity>
       <View style={styles.infoContainer}>
         <Text>Live now: {currentShowTitle}</Text>
       </View>
