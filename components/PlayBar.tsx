@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {AppState, Button, StyleSheet, Text, View} from 'react-native';
 import TrackPlayer, {
   useTrackPlayerEvents,
   Capability as TrackPlayerCapability,
@@ -28,6 +28,20 @@ export default function PlayBar() {
   const [currentShowTitle, setCurrentShowTitle] = useState('...');
 
   useEffect(() => {
+    const appStateSubscription = AppState.addEventListener(
+      'change',
+      async nextAppState => {
+        if (nextAppState === 'active') {
+          const shows = await getShows();
+          setCurrentShowTitle(shows.current.name);
+        }
+      },
+    );
+
+    return () => appStateSubscription.remove();
+  }, []);
+
+  useEffect(() => {
     (async () => {
       try {
         await TrackPlayer.setupPlayer();
@@ -50,8 +64,6 @@ export default function PlayBar() {
           TrackPlayerCapability.Pause,
         ],
       });
-      const shows = await getShows();
-      setCurrentShowTitle(shows.current.name);
     })();
   }, []);
 
