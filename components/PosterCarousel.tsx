@@ -8,11 +8,7 @@ import {
 } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 
-interface StrapiEntryListResponse<T> {
-  data: {
-    attributes: T;
-  }[];
-}
+import {StrapiEntryListResponse} from '../utils/strapi';
 
 interface Poster {
   secureImageUrl: string;
@@ -23,7 +19,8 @@ function PosterCarouselItem({item, index}: {item: Poster; index: number}) {
   const {width: windowWidth} = useWindowDimensions();
   return (
     <View key={index}>
-      <TouchableHighlight onPress={() => Linking.openURL(item.url)}>
+      <TouchableHighlight
+        onPress={item.url ? () => Linking.openURL(item.url!) : undefined}>
         <Image
           style={{height: windowWidth}}
           source={{uri: item.secureImageUrl}}

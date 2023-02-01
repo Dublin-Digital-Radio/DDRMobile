@@ -7,7 +7,15 @@ import TrackPlayer, {
   State as TrackPlayerState,
 } from 'react-native-track-player';
 import Icon from 'react-native-vector-icons/AntDesign';
+import Modal from 'react-native-modal';
 import airtime from 'airtime-pro-api';
+
+import {StrapiEntryListResponse} from '../utils/strapi';
+
+interface ShowInfo {
+  name: string;
+  tagline: string;
+}
 
 const streamUrl =
   'https://dublindigitalradio.out.airtime.pro/dublindigitalradio_a';
@@ -22,11 +30,27 @@ async function getShows() {
   }
 }
 
+async function fetchShowInfo(showName: string) {
+  return await fetch(
+    `https://ddr-cms.fly.dev/api/shows?filters[name][$eqi]=${showName}`,
+  )
+    .then(response => response.json())
+    .then(
+      showInfoResponse => showInfoResponse as StrapiEntryListResponse<ShowInfo>,
+    )
+    .then(showInfoResponse => showInfoResponse.data)
+    .then(
+      showInfoEntries => showInfoEntries[0] && showInfoEntries[0].attributes,
+    );
+}
+
 export default function PlayBar() {
   const [buttonStatus, setButtonStatus] = useState<
     'play' | 'pause' | 'loading1'
   >('play');
   const [currentShowTitle, setCurrentShowTitle] = useState('...');
+  const [showInfoModalVisible, setShowInfoModalVisible] = useState(false);
+  const [currentShowInfo, setCurrentShowInfo] = useState<ShowInfo>();
 
   useEffect(() => {
     const appStateSubscription = AppState.addEventListener(
@@ -35,6 +59,9 @@ export default function PlayBar() {
         if (nextAppState === 'active') {
           const shows = await getShows();
           setCurrentShowTitle(shows.current.name);
+
+          const showInfo = await fetchShowInfo(shows.current.name);
+          setCurrentShowInfo(showInfo);
         }
       },
     );
@@ -111,6 +138,14 @@ export default function PlayBar() {
 
   return (
     <View style={styles.container}>
+      <Modal
+        isVisible={showInfoModalVisible}
+        onBackdropPress={() => setShowInfoModalVisible(false)}>
+        <View style={styles.showInfoModal}>
+          <Text style={styles.showInfoName}>{currentShowInfo?.name}</Text>
+          <Text style={styles.showInfoTagline}>{currentShowInfo?.tagline}</Text>
+        </View>
+      </Modal>
       <TouchableOpacity onPress={toggleStream}>
         <Icon
           name={buttonStatus === 'play' ? 'play' : 'pausecircle'}
@@ -119,6 +154,13 @@ export default function PlayBar() {
       </TouchableOpacity>
       <View style={styles.infoContainer}>
         <Text>Live now: {currentShowTitle}</Text>
+        {currentShowTitle !== '...' && currentShowInfo ? (
+          <TouchableOpacity
+            style={styles.showInfoButton}
+            onPress={() => setShowInfoModalVisible(true)}>
+            <Icon name="infocirlceo" size={20} />
+          </TouchableOpacity>
+        ) : null}
       </View>
     </View>
   );
@@ -133,6 +175,23 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     alignSelf: 'center',
+    alignItems: 'center',
     marginLeft: 12,
+    flexDirection: 'row',
+  },
+  showInfoButton: {
+    marginLeft: 8,
+  },
+  showInfoModal: {
+    backgroundColor: 'white',
+    padding: 16,
+    borderRadius: 8,
+  },
+  showInfoName: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  showInfoTagline: {
+    marginTop: 16,
   },
 });
