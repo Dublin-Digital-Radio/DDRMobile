@@ -1,5 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {AppState, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  AppState,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  useColorScheme,
+} from 'react-native';
 import TrackPlayer, {
   useTrackPlayerEvents,
   Capability as TrackPlayerCapability,
@@ -51,6 +58,7 @@ export default function PlayBar() {
   const [currentShowTitle, setCurrentShowTitle] = useState('...');
   const [showInfoModalVisible, setShowInfoModalVisible] = useState(false);
   const [currentShowInfo, setCurrentShowInfo] = useState<ShowInfo>();
+  const colorScheme = useColorScheme();
 
   useEffect(() => {
     const appStateSubscription = AppState.addEventListener(
@@ -137,7 +145,11 @@ export default function PlayBar() {
   }, [currentShowTitle]);
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        colorScheme === 'dark' ? styles.containerDark : {},
+      ]}>
       <Modal
         isVisible={showInfoModalVisible}
         onBackdropPress={() => setShowInfoModalVisible(false)}>
@@ -150,15 +162,26 @@ export default function PlayBar() {
         <Icon
           name={buttonStatus === 'play' ? 'play' : 'pausecircle'}
           size={40}
+          color={
+            colorScheme === 'dark' ? styles.iconButtonDark.color : undefined
+          }
         />
       </TouchableOpacity>
       <View style={styles.infoContainer}>
-        <Text>Live now: {currentShowTitle}</Text>
+        <Text style={colorScheme === 'dark' ? styles.liveNowDark : undefined}>
+          Live now: {currentShowTitle}
+        </Text>
         {currentShowTitle !== '...' && currentShowInfo ? (
           <TouchableOpacity
             style={styles.showInfoButton}
             onPress={() => setShowInfoModalVisible(true)}>
-            <Icon name="infocirlceo" size={20} />
+            <Icon
+              name="infocirlceo"
+              size={20}
+              color={
+                colorScheme === 'dark' ? styles.iconButtonDark.color : undefined
+              }
+            />
           </TouchableOpacity>
         ) : null}
       </View>
@@ -173,11 +196,20 @@ const styles = StyleSheet.create({
     padding: 8,
     flexDirection: 'row',
   },
+  containerDark: {
+    borderColor: 'white',
+  },
+  iconButtonDark: {
+    color: 'white',
+  },
   infoContainer: {
     alignSelf: 'center',
     alignItems: 'center',
     marginLeft: 12,
     flexDirection: 'row',
+  },
+  liveNowDark: {
+    color: 'white',
   },
   showInfoButton: {
     marginLeft: 8,
