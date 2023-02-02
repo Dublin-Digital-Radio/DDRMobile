@@ -51,6 +51,16 @@ async function fetchShowInfo(showName: string) {
     );
 }
 
+function convertAirtimeToCmsShowName(airtimeShowName: string) {
+  const trimmedAirtimeShowName = airtimeShowName
+    ? decodeURIComponent(airtimeShowName)
+        .split('|')
+        .map(showNameFragment => showNameFragment.trim())[0]
+    : '';
+
+  return (trimmedAirtimeShowName ?? '').replace(/\s*\(R\)/, '');
+}
+
 export default function PlayBar() {
   const [buttonStatus, setButtonStatus] = useState<
     'play' | 'pause' | 'loading1'
@@ -68,7 +78,9 @@ export default function PlayBar() {
           const shows = await getShows();
           setCurrentShowTitle(shows.current.name);
 
-          const showInfo = await fetchShowInfo(shows.current.name);
+          const cmsShowName = convertAirtimeToCmsShowName(shows.current.name);
+
+          const showInfo = await fetchShowInfo(cmsShowName);
           setCurrentShowInfo(showInfo);
         }
       },
