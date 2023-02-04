@@ -83,10 +83,13 @@ export default function PlayBar() {
           const showInfo = await fetchShowInfo(cmsShowName);
           setCurrentShowInfo(showInfo);
 
-          TrackPlayer.updateMetadataForTrack(0, {
-            title: shows.current.name,
-            artist: 'DDR',
-          });
+          const currentTrack = await TrackPlayer.getCurrentTrack();
+          if (currentTrack) {
+            TrackPlayer.updateMetadataForTrack(currentTrack, {
+              title: shows.current.name,
+              artist: 'DDR',
+            });
+          }
         }
       },
     );
