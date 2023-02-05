@@ -1,12 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Image,
-  Linking,
-  TouchableHighlight,
-  View,
-  useWindowDimensions,
-} from 'react-native';
+import {Image, Linking, View, useWindowDimensions} from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
+import {TouchableHighlight} from 'react-native-gesture-handler';
 
 import {StrapiEntryResponse, StrapiEntryListResponse} from '../utils/strapi';
 
@@ -17,7 +12,6 @@ interface Poster {
 
 function PosterCarouselItem({item, index}: {item: Poster; index: number}) {
   const {width: windowWidth} = useWindowDimensions();
-  console.log({url: item.url, imageUrl: item.image.data.attributes.url});
   return (
     <View key={index}>
       <TouchableHighlight
