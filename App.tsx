@@ -36,7 +36,7 @@ function App(): JSX.Element {
               <Icon name={iconName} size={size} color={color} />
             ) : null;
           },
-          tabBarActiveTintColor: 'white',
+          tabBarActiveTintColor: isDarkMode ? 'white' : 'black',
           tabBarInactiveTintColor: 'gray',
         })}>
         <Tab.Screen name="Home" component={HomeScreen} />
