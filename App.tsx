@@ -1,40 +1,42 @@
 import React from 'react';
+import {useColorScheme} from 'react-native';
 import {
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  useColorScheme,
-  View,
-} from 'react-native';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import PosterCarousel from './components/PosterCarousel';
-import PlayBar from './components/PlayBar';
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Icon from 'react-native-vector-icons/AntDesign';
+
+import HomeScreen from './screens/HomeScreen';
+
+const Tab = createBottomTabNavigator();
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    <SafeAreaView style={styles.flexContainer}>
-      <GestureHandlerRootView style={styles.flexContainer}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <View style={[styles.flexContainer, styles.posterCarouselContainer]}>
-          <PosterCarousel />
-        </View>
-        <View>
-          <PlayBar />
-        </View>
-      </GestureHandlerRootView>
-    </SafeAreaView>
+    <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
+      <Tab.Navigator
+        screenOptions={({route}) => ({
+          headerShown: false,
+          tabBarIcon: ({color, size}) => {
+            let iconName;
+
+            if (route.name === 'Home') {
+              iconName = 'home';
+            }
+            return iconName ? (
+              <Icon name={iconName} size={size} color={color} />
+            ) : null;
+          },
+          tabBarActiveTintColor: 'white',
+          tabBarInactiveTintColor: 'gray',
+        })}>
+        <Tab.Screen name="Home" component={HomeScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  flexContainer: {
-    flex: 1,
-  },
-  posterCarouselContainer: {
-    justifyContent: 'center',
-  },
-});
 
 export default App;
