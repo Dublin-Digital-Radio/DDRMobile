@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  useColorScheme,
+} from 'react-native';
 import airtime from 'airtime-pro-api';
 import {add, format} from 'date-fns';
 
@@ -51,16 +58,18 @@ const scheduleByDay = (data: {[dayName: string]: Show[]}) => {
 };
 
 function ScheduleDayRow({show}: {show: Show}) {
+  const isDarkMode = useColorScheme() === 'dark';
+
   return (
     <View style={styles.scheduleDayContainer}>
       <View style={styles.flexContainer}>
-        <Text>
+        <Text style={isDarkMode ? styles.textDark : {}}>
           {format(new Date(show.start_timestamp), 'HH:mm')} -{' '}
           {format(new Date(show.end_timestamp), 'HH:mm')}
         </Text>
       </View>
       <View style={styles.showNameCell}>
-        <Text>{show.name}</Text>
+        <Text style={isDarkMode ? styles.textDark : {}}>{show.name}</Text>
       </View>
     </View>
   );
@@ -68,6 +77,7 @@ function ScheduleDayRow({show}: {show: Show}) {
 
 export default function ScheduleScreen() {
   const [schedule, setSchedule] = useState<AirtimeDaySchedule[]>([]);
+  const isDarkMode = useColorScheme() === 'dark';
 
   useEffect(() => {
     (async () => {
@@ -82,7 +92,10 @@ export default function ScheduleScreen() {
         {schedule.map(day => {
           return (
             <>
-              <Text style={styles.scheduleDay}>{day.dayName}</Text>
+              <Text
+                style={[styles.scheduleDay, isDarkMode ? styles.textDark : {}]}>
+                {day.dayName}
+              </Text>
               {day.shows.map(show => (
                 <ScheduleDayRow show={show} />
               ))}
@@ -103,6 +116,9 @@ const styles = StyleSheet.create({
   },
   scheduleDay: {
     fontSize: 24,
+  },
+  textDark: {
+    color: 'white',
   },
   showNameCell: {
     flex: 2,
