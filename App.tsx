@@ -9,6 +9,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import HomeScreen from './screens/HomeScreen';
+import ScheduleScreen from './screens/ScheduleScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,6 +27,11 @@ function App(): JSX.Element {
             if (route.name === 'Home') {
               iconName = 'home';
             }
+
+            if (route.name === 'Schedule') {
+              iconName = 'calendar';
+            }
+
             return iconName ? (
               <Icon name={iconName} size={size} color={color} />
             ) : null;
@@ -34,6 +40,7 @@ function App(): JSX.Element {
           tabBarInactiveTintColor: 'gray',
         })}>
         <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Schedule" component={ScheduleScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );

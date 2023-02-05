@@ -13,6 +13,7 @@
     "@react-navigation/bottom-tabs": "^6.5.4",
     "@react-navigation/native": "^6.1.3",
     "airtime-pro-api": "github:DublinDigitalRadioGmail/airtime-pro-api",
+    "date-fns": "^2.29.3",
     "react": "18.2.0",
     "react-native": "0.71.1",
     "react-native-gesture-handler": "^2.9.0",
