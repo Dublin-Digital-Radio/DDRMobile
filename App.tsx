@@ -21,6 +21,8 @@ function App(): JSX.Element {
       <Tab.Navigator
         screenOptions={({route}) => ({
           headerShown: false,
+          // Below is the maintainer's recommended way to define tabBarIcon
+          // eslint-disable-next-line react/no-unstable-nested-components
           tabBarIcon: ({color, size}) => {
             let iconName;
 

@@ -1,14 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  useColorScheme,
-} from 'react-native';
+import React, {useEffect, useMemo, useState} from 'react';
+import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+// The airtime library doesn't have type declarations yet.
+// @ts-expect-error
 import airtime from 'airtime-pro-api';
 import {add, format} from 'date-fns';
+import {useTheme} from '@react-navigation/native';
 
 interface Show {
   name: string;
@@ -58,18 +54,37 @@ const scheduleByDay = (data: {[dayName: string]: Show[]}) => {
 };
 
 function ScheduleDayRow({show}: {show: Show}) {
-  const isDarkMode = useColorScheme() === 'dark';
+  const {colors} = useTheme();
+
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        scheduleDayContainer: {
+          flexDirection: 'row',
+        },
+        showTimeCell: {
+          flex: 1,
+        },
+        showNameCell: {
+          flex: 2,
+        },
+        text: {
+          color: colors.text,
+        },
+      }),
+    [colors.text],
+  );
 
   return (
     <View style={styles.scheduleDayContainer}>
-      <View style={styles.flexContainer}>
-        <Text style={isDarkMode ? styles.textDark : {}}>
+      <View style={styles.showTimeCell}>
+        <Text style={styles.text}>
           {format(new Date(show.start_timestamp), 'HH:mm')} -{' '}
           {format(new Date(show.end_timestamp), 'HH:mm')}
         </Text>
       </View>
       <View style={styles.showNameCell}>
-        <Text style={isDarkMode ? styles.textDark : {}}>{show.name}</Text>
+        <Text style={styles.text}>{show.name}</Text>
       </View>
     </View>
   );
@@ -77,7 +92,7 @@ function ScheduleDayRow({show}: {show: Show}) {
 
 export default function ScheduleScreen() {
   const [schedule, setSchedule] = useState<AirtimeDaySchedule[]>([]);
-  const isDarkMode = useColorScheme() === 'dark';
+  const {colors} = useTheme();
 
   useEffect(() => {
     (async () => {
@@ -86,16 +101,28 @@ export default function ScheduleScreen() {
     })();
   }, []);
 
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        flexContainer: {
+          flex: 1,
+        },
+
+        scheduleDay: {
+          fontSize: 24,
+          color: colors.text,
+        },
+      }),
+    [colors.text],
+  );
+
   return (
     <SafeAreaView style={styles.flexContainer}>
       <ScrollView>
         {schedule.map(day => {
           return (
             <>
-              <Text
-                style={[styles.scheduleDay, isDarkMode ? styles.textDark : {}]}>
-                {day.dayName}
-              </Text>
+              <Text style={styles.scheduleDay}>{day.dayName}</Text>
               {day.shows.map(show => (
                 <ScheduleDayRow show={show} />
               ))}
@@ -106,21 +133,3 @@ export default function ScheduleScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  flexContainer: {
-    flex: 1,
-  },
-  scheduleDayContainer: {
-    flexDirection: 'row',
-  },
-  scheduleDay: {
-    fontSize: 24,
-  },
-  textDark: {
-    color: 'white',
-  },
-  showNameCell: {
-    flex: 2,
-  },
-});

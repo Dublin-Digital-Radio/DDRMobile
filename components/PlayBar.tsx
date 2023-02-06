@@ -1,20 +1,16 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {
-  AppState,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  useColorScheme,
-} from 'react-native';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {AppState, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import TrackPlayer, {
   useTrackPlayerEvents,
   Capability as TrackPlayerCapability,
   Event as TrackPlayerEvent,
   State as TrackPlayerState,
 } from 'react-native-track-player';
+import {DefaultTheme, useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Modal from 'react-native-modal';
+// The airtime library doesn't have type declarations yet.
+// @ts-expect-error
 import airtime from 'airtime-pro-api';
 
 import {StrapiEntryListResponse} from '../utils/strapi';
@@ -68,7 +64,7 @@ export default function PlayBar() {
   const [currentShowTitle, setCurrentShowTitle] = useState('...');
   const [showInfoModalVisible, setShowInfoModalVisible] = useState(false);
   const [currentShowInfo, setCurrentShowInfo] = useState<ShowInfo>();
-  const colorScheme = useColorScheme();
+  const {colors} = useTheme();
 
   useEffect(() => {
     const appStateSubscription = AppState.addEventListener(
@@ -164,86 +160,80 @@ export default function PlayBar() {
     }
   }, [currentShowTitle]);
 
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
+          borderColor: colors.border,
+          borderTopWidth: 2,
+          padding: 8,
+          flexDirection: 'row',
+        },
+        iconButton: {
+          color: colors.text,
+        },
+        infoContainer: {
+          alignSelf: 'center',
+          alignItems: 'center',
+          marginLeft: 12,
+          flexDirection: 'row',
+        },
+        liveNow: {
+          color: colors.text,
+        },
+        showInfoButton: {
+          marginLeft: 8,
+        },
+        showInfoModal: {
+          backgroundColor: DefaultTheme.colors.background,
+          padding: 16,
+          borderRadius: 8,
+        },
+        showInfoText: {
+          color: DefaultTheme.colors.text,
+        },
+        showInfoName: {
+          fontSize: 24,
+          fontWeight: 'bold',
+        },
+        showInfoTagline: {
+          marginTop: 16,
+        },
+      }),
+    [colors.border, colors.text],
+  );
+
   return (
-    <View
-      style={[
-        styles.container,
-        colorScheme === 'dark' ? styles.containerDark : {},
-      ]}>
+    <View style={styles.container}>
       <Modal
         isVisible={showInfoModalVisible}
         onBackdropPress={() => setShowInfoModalVisible(false)}>
         <View style={styles.showInfoModal}>
-          <Text style={styles.showInfoName}>{currentShowInfo?.name}</Text>
-          <Text style={styles.showInfoTagline}>{currentShowInfo?.tagline}</Text>
+          <Text style={[styles.showInfoText, styles.showInfoName]}>
+            {currentShowInfo?.name}
+          </Text>
+          <Text style={[styles.showInfoText, styles.showInfoTagline]}>
+            {currentShowInfo?.tagline}
+          </Text>
         </View>
       </Modal>
       <TouchableOpacity onPress={toggleStream}>
         <Icon
           name={buttonStatus === 'play' ? 'play' : 'pausecircle'}
           size={40}
-          color={
-            colorScheme === 'dark' ? styles.iconButtonDark.color : undefined
-          }
+          style={styles.iconButton}
         />
       </TouchableOpacity>
       <View style={styles.infoContainer}>
-        <Text style={colorScheme === 'dark' ? styles.liveNowDark : undefined}>
-          Live now: {currentShowTitle}
-        </Text>
+        <Text style={styles.liveNow}>Live now: {currentShowTitle}</Text>
         {currentShowTitle !== '...' && currentShowInfo ? (
           <TouchableOpacity
             style={styles.showInfoButton}
             onPress={() => setShowInfoModalVisible(true)}>
-            <Icon
-              name="infocirlceo"
-              size={20}
-              color={
-                colorScheme === 'dark' ? styles.iconButtonDark.color : undefined
-              }
-            />
+            <Icon name="infocirlceo" size={20} style={styles.iconButton} />
           </TouchableOpacity>
         ) : null}
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    borderColor: 'black',
-    borderTopWidth: 2,
-    padding: 8,
-    flexDirection: 'row',
-  },
-  containerDark: {
-    borderColor: 'white',
-  },
-  iconButtonDark: {
-    color: 'white',
-  },
-  infoContainer: {
-    alignSelf: 'center',
-    alignItems: 'center',
-    marginLeft: 12,
-    flexDirection: 'row',
-  },
-  liveNowDark: {
-    color: 'white',
-  },
-  showInfoButton: {
-    marginLeft: 8,
-  },
-  showInfoModal: {
-    backgroundColor: 'white',
-    padding: 16,
-    borderRadius: 8,
-  },
-  showInfoName: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  showInfoTagline: {
-    marginTop: 16,
-  },
-});
