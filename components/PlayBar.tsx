@@ -66,32 +66,36 @@ export default function PlayBar() {
   const [currentShowInfo, setCurrentShowInfo] = useState<ShowInfo>();
   const {colors} = useTheme();
 
+  const refreshTrackData = useCallback(async () => {
+    const shows = await getShows();
+    setCurrentShowTitle(shows.current.name);
+
+    const cmsShowName = convertAirtimeToCmsShowName(shows.current.name);
+
+    const showInfo = await fetchShowInfo(cmsShowName);
+    setCurrentShowInfo(showInfo);
+
+    const currentTrack = await TrackPlayer.getCurrentTrack();
+    if (currentTrack) {
+      TrackPlayer.updateMetadataForTrack(currentTrack, {
+        title: shows.current.name,
+        artist: 'DDR',
+      });
+    }
+  }, []);
+
   useEffect(() => {
     const appStateSubscription = AppState.addEventListener(
       'change',
       async nextAppState => {
         if (nextAppState === 'active') {
-          const shows = await getShows();
-          setCurrentShowTitle(shows.current.name);
-
-          const cmsShowName = convertAirtimeToCmsShowName(shows.current.name);
-
-          const showInfo = await fetchShowInfo(cmsShowName);
-          setCurrentShowInfo(showInfo);
-
-          const currentTrack = await TrackPlayer.getCurrentTrack();
-          if (currentTrack) {
-            TrackPlayer.updateMetadataForTrack(currentTrack, {
-              title: shows.current.name,
-              artist: 'DDR',
-            });
-          }
+          await refreshTrackData();
         }
       },
     );
 
     return () => appStateSubscription.remove();
-  }, []);
+  }, [refreshTrackData]);
 
   useEffect(() => {
     (async () => {
@@ -116,8 +120,10 @@ export default function PlayBar() {
           TrackPlayerCapability.Pause,
         ],
       });
+
+      await refreshTrackData();
     })();
-  }, []);
+  }, [refreshTrackData]);
 
   useTrackPlayerEvents([TrackPlayerEvent.PlaybackState], event => {
     if (event.type === TrackPlayerEvent.PlaybackState) {
