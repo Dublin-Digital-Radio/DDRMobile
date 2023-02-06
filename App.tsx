@@ -5,13 +5,27 @@ import {
   DefaultTheme,
   DarkTheme,
 } from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  createBottomTabNavigator,
+  BottomTabBar,
+  BottomTabBarProps,
+} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/AntDesign';
 
+import PlayBar from './components/PlayBar';
 import HomeScreen from './screens/HomeScreen';
 import ScheduleScreen from './screens/ScheduleScreen';
 
 const Tab = createBottomTabNavigator();
+
+function CustomBottomTabBar(props: BottomTabBarProps) {
+  return (
+    <>
+      <PlayBar />
+      <BottomTabBar {...props} />
+    </>
+  );
+}
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -19,6 +33,7 @@ function App(): JSX.Element {
   return (
     <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
       <Tab.Navigator
+        tabBar={CustomBottomTabBar}
         screenOptions={({route}) => ({
           headerShown: false,
           // Below is the maintainer's recommended way to define tabBarIcon

@@ -170,6 +170,7 @@ export default function PlayBar() {
     () =>
       StyleSheet.create({
         container: {
+          backgroundColor: colors.background,
           borderColor: colors.border,
           borderTopWidth: 2,
           padding: 8,
@@ -206,7 +207,7 @@ export default function PlayBar() {
           marginTop: 16,
         },
       }),
-    [colors.border, colors.text],
+    [colors.background, colors.border, colors.text],
   );
 
   return (

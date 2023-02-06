@@ -9,7 +9,6 @@ import {
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import PosterCarousel from '../components/PosterCarousel';
-import PlayBar from '../components/PlayBar';
 
 export default function HomeScreen() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -20,9 +19,6 @@ export default function HomeScreen() {
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
         <View style={[styles.flexContainer, styles.posterCarouselContainer]}>
           <PosterCarousel />
-        </View>
-        <View>
-          <PlayBar />
         </View>
       </GestureHandlerRootView>
     </SafeAreaView>
