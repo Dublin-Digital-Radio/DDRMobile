@@ -3,7 +3,7 @@ import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
 // The airtime library doesn't have type declarations yet.
 // @ts-expect-error
 import airtime from 'airtime-pro-api';
-import {add, format} from 'date-fns';
+import {add, format, isAfter, isBefore} from 'date-fns';
 import {useFocusEffect, useTheme} from '@react-navigation/native';
 
 interface Show {
@@ -53,7 +53,13 @@ const scheduleByDay = (data: {[dayName: string]: Show[]}) => {
   return schedule;
 };
 
-function ScheduleDayRow({show}: {show: Show}) {
+function ScheduleDayRow({
+  show,
+  isLiveShow = false,
+}: {
+  show: Show;
+  isLiveShow?: boolean;
+}) {
   const {colors} = useTheme();
 
   const styles = useMemo(
@@ -71,20 +77,26 @@ function ScheduleDayRow({show}: {show: Show}) {
         text: {
           color: colors.text,
         },
+        isLiveShow: {
+          fontWeight: 'bold',
+          color: colors.primary,
+        },
       }),
-    [colors.text],
+    [colors.primary, colors.text],
   );
 
   return (
     <View style={styles.scheduleDayContainer}>
       <View style={styles.showTimeCell}>
-        <Text style={styles.text}>
+        <Text style={[styles.text, isLiveShow ? styles.isLiveShow : {}]}>
           {format(new Date(show.start_timestamp), 'HH:mm')} -{' '}
           {format(new Date(show.end_timestamp), 'HH:mm')}
         </Text>
       </View>
       <View style={styles.showNameCell}>
-        <Text style={styles.text}>{show.name}</Text>
+        <Text style={[styles.text, isLiveShow ? styles.isLiveShow : {}]}>
+          {show.name}
+        </Text>
       </View>
     </View>
   );
@@ -92,6 +104,7 @@ function ScheduleDayRow({show}: {show: Show}) {
 
 export default function ScheduleScreen() {
   const [schedule, setSchedule] = useState<AirtimeDaySchedule[]>([]);
+  const [liveShowIndex, setLiveShowIndex] = useState(-1);
   const {colors} = useTheme();
 
   const fetchSchedule = useCallback(async () => {
@@ -109,6 +122,13 @@ export default function ScheduleScreen() {
       if (currentDayName !== schedule[0]?.dayName) {
         fetchSchedule();
       }
+      const currentTime = new Date();
+      const currentLiveShowIndex = (schedule[0]?.shows ?? []).findIndex(
+        ({start_timestamp, end_timestamp}) =>
+          isAfter(currentTime, new Date(start_timestamp)) &&
+          isBefore(currentTime, new Date(end_timestamp)),
+      );
+      setLiveShowIndex(currentLiveShowIndex);
     }, [fetchSchedule, schedule]),
   );
 
@@ -130,12 +150,15 @@ export default function ScheduleScreen() {
   return (
     <SafeAreaView style={styles.flexContainer}>
       <ScrollView>
-        {schedule.map(day => {
+        {schedule.map((day, dayIndex) => {
           return (
             <>
               <Text style={styles.scheduleDay}>{day.dayName}</Text>
-              {day.shows.map(show => (
-                <ScheduleDayRow show={show} />
+              {day.shows.map((show, showIndex) => (
+                <ScheduleDayRow
+                  show={show}
+                  isLiveShow={dayIndex === 0 && showIndex === liveShowIndex}
+                />
               ))}
             </>
           );
