@@ -5,6 +5,7 @@ import TrackPlayer, {
   Capability as TrackPlayerCapability,
   Event as TrackPlayerEvent,
   State as TrackPlayerState,
+  AppKilledPlaybackBehavior,
 } from 'react-native-track-player';
 import {DefaultTheme, useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -76,9 +77,9 @@ export default function PlayBar() {
     const showInfo = await fetchShowInfo(cmsShowName);
     setCurrentShowInfo(showInfo);
 
-    const currentTrack = await TrackPlayer.getCurrentTrack();
+    const currentTrack = await TrackPlayer.getTrack(0);
     if (currentTrack !== null) {
-      TrackPlayer.updateMetadataForTrack(currentTrack, {
+      TrackPlayer.updateMetadataForTrack(0, {
         title: shows.current.name,
         artist: 'DDR',
         // Todo: Add placeholder artwork
@@ -122,6 +123,11 @@ export default function PlayBar() {
           TrackPlayerCapability.Play,
           TrackPlayerCapability.Pause,
         ],
+
+        android: {
+          appKilledPlaybackBehavior:
+            AppKilledPlaybackBehavior.StopPlaybackAndRemoveNotification,
+        },
       });
 
       await refreshTrackData();
