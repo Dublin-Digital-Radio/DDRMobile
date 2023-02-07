@@ -76,7 +76,7 @@ export default function PlayBar() {
     setCurrentShowInfo(showInfo);
 
     const currentTrack = await TrackPlayer.getCurrentTrack();
-    if (currentTrack) {
+    if (currentTrack !== null) {
       TrackPlayer.updateMetadataForTrack(currentTrack, {
         title: shows.current.name,
         artist: 'DDR',
