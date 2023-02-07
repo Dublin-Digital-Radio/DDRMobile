@@ -1,10 +1,10 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
 // The airtime library doesn't have type declarations yet.
 // @ts-expect-error
 import airtime from 'airtime-pro-api';
 import {add, format} from 'date-fns';
-import {useTheme} from '@react-navigation/native';
+import {useFocusEffect, useTheme} from '@react-navigation/native';
 
 interface Show {
   name: string;
@@ -94,12 +94,23 @@ export default function ScheduleScreen() {
   const [schedule, setSchedule] = useState<AirtimeDaySchedule[]>([]);
   const {colors} = useTheme();
 
-  useEffect(() => {
-    (async () => {
-      const weekInfo = await ddrAirtime.weekInfo();
-      setSchedule(scheduleByDay(weekInfo));
-    })();
+  const fetchSchedule = useCallback(async () => {
+    const weekInfo = await ddrAirtime.weekInfo();
+    setSchedule(scheduleByDay(weekInfo));
   }, []);
+
+  useEffect(() => {
+    fetchSchedule();
+  }, [fetchSchedule]);
+
+  useFocusEffect(
+    useCallback(() => {
+      const currentDayName = format(new Date(), 'eeee');
+      if (currentDayName !== schedule[0]?.dayName) {
+        fetchSchedule();
+      }
+    }, [fetchSchedule, schedule]),
+  );
 
   const styles = useMemo(
     () =>
