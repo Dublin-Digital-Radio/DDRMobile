@@ -18,6 +18,7 @@ import {StrapiEntryListResponse} from '../utils/strapi';
 interface ShowInfo {
   name: string;
   tagline: string;
+  secureImageUrl?: string | null;
 }
 
 const streamUrl =
@@ -80,6 +81,8 @@ export default function PlayBar() {
       TrackPlayer.updateMetadataForTrack(currentTrack, {
         title: shows.current.name,
         artist: 'DDR',
+        // Todo: Add placeholder artwork
+        artwork: showInfo?.secureImageUrl ?? undefined,
       });
     }
   }, []);
