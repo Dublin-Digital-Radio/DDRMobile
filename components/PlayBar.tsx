@@ -153,6 +153,7 @@ export default function PlayBar() {
         url: streamUrl,
         title: currentShowTitle,
         artist: 'DDR',
+        artwork: currentShowInfo?.secureImageUrl ?? undefined,
       });
       await TrackPlayer.play();
       setButtonStatus('pause');
@@ -168,12 +169,13 @@ export default function PlayBar() {
           url: streamUrl,
           title: currentShowTitle,
           artist: 'DDR',
+          artwork: currentShowInfo?.secureImageUrl ?? undefined,
         });
         await TrackPlayer.play();
         setButtonStatus('pause');
       }
     }
-  }, [currentShowTitle]);
+  }, [currentShowInfo?.secureImageUrl, currentShowTitle]);
 
   const styles = useMemo(
     () =>
