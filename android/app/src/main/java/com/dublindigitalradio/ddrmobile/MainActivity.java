@@ -1,4 +1,4 @@
-package com.ddrmobile;
+package com.dublindigitalradio.ddrmobile;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
