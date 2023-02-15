@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {useTheme} from '@react-navigation/native';
 
 import Logo from '../assets/logo.svg';
 import PosterCarousel from '../components/PosterCarousel';
@@ -15,6 +16,7 @@ import PosterCarousel from '../components/PosterCarousel';
 export default function HomeScreen() {
   const isDarkMode = useColorScheme() === 'dark';
   const {height: windowHeight} = useWindowDimensions();
+  const {colors} = useTheme();
 
   const styles = useMemo(() => {
     return StyleSheet.create({
@@ -28,9 +30,16 @@ export default function HomeScreen() {
       },
       posterCarouselContainer: {
         justifyContent: 'center',
+        alignItems: 'center',
+      },
+      liveNowText: {
+        color: colors.text,
+        fontSize: 20,
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
       },
     });
-  }, [windowHeight]);
+  }, [colors.text, windowHeight]);
 
   return (
     <SafeAreaView style={styles.flexContainer}>
@@ -40,7 +49,7 @@ export default function HomeScreen() {
           <Logo width={windowHeight * 0.1} height={windowHeight * 0.1} />
         </View>
         <View style={[styles.flexContainer, styles.posterCarouselContainer]}>
-          <PosterCarousel />
+          <PosterCarousel height={windowHeight * 0.4} />
         </View>
       </GestureHandlerRootView>
     </SafeAreaView>

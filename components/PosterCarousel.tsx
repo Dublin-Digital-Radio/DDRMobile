@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Image, Linking, View, useWindowDimensions} from 'react-native';
+import React, {useEffect, useMemo, useState} from 'react';
+import {Image, Linking, View, StyleSheet} from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 
@@ -10,14 +10,13 @@ interface Poster {
   url?: string;
 }
 
-function PosterCarouselItem({item, index}: {item: Poster; index: number}) {
-  const {width: windowWidth} = useWindowDimensions();
+function PosterCarouselItem({item, height}: {item: Poster; height: number}) {
   return (
-    <View key={index}>
+    <View key={item.image.data.attributes.url}>
       <TouchableHighlight
         onPress={item.url ? () => Linking.openURL(item.url!) : undefined}>
         <Image
-          style={{height: windowWidth}}
+          style={{width: height, height: height}}
           source={{uri: item.image.data.attributes.url}}
         />
       </TouchableHighlight>
@@ -25,8 +24,7 @@ function PosterCarouselItem({item, index}: {item: Poster; index: number}) {
   );
 }
 
-export default function PosterCarousel() {
-  const {width: windowWidth} = useWindowDimensions();
+export default function PosterCarousel({height}: {height: number}) {
   const [posters, setPosters] = useState<Poster[]>([]);
 
   useEffect(() => {
@@ -51,17 +49,31 @@ export default function PosterCarousel() {
     })();
   }, []);
 
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        carousel: {
+          width: '100%',
+          justifyContent: 'center',
+        },
+      }),
+    [],
+  );
+
   return (
     <Carousel
       data={posters}
-      renderItem={PosterCarouselItem}
-      width={windowWidth}
-      height={windowWidth}
-      mode="parallax"
-      modeConfig={{
-        parallaxScrollingOffset: 50,
-        parallaxScrollingScale: 0.9,
-      }}
+      renderItem={({item}) => (
+        <PosterCarouselItem item={item} height={height} />
+      )}
+      autoPlay
+      autoPlayInterval={5000}
+      pagingEnabled
+      width={height}
+      height={height}
+      mode="horizontal-stack"
+      modeConfig={{}}
+      style={styles.carousel}
     />
   );
 }
