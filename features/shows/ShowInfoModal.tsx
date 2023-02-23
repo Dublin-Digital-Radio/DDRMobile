@@ -59,8 +59,8 @@ export default function ShowInfoModal() {
               Linking.openURL(getShowInstagramUrl(currentShowInfo.instagram))
             }
             style={styles.showInfoSocialContainer}>
-            <Icon name="instagram" />
-            <Text style={styles.showInfoSocialHandle}>
+            <Icon name="instagram" color={DefaultTheme.colors.text} />
+            <Text style={[styles.showInfoText, styles.showInfoSocialHandle]}>
               {currentShowInfo.instagram}
             </Text>
           </TouchableOpacity>
@@ -72,8 +72,8 @@ export default function ShowInfoModal() {
               Linking.openURL(`https://twitter.com/${currentShowInfo.twitter}`)
             }
             style={styles.showInfoSocialContainer}>
-            <Icon name="twitter" />
-            <Text style={styles.showInfoSocialHandle}>
+            <Icon name="twitter" color={DefaultTheme.colors.text} />
+            <Text style={[styles.showInfoText, styles.showInfoSocialHandle]}>
               {currentShowInfo.twitter}
             </Text>
           </TouchableOpacity>
