@@ -116,6 +116,7 @@ function App(): JSX.Element {
           setCurrentShowTitle,
           currentShowInfo,
           setCurrentShowInfo,
+          refreshTrackData,
           showInfoModalVisible,
           setShowInfoModalVisible,
         }}>

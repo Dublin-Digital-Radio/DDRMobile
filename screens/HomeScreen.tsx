@@ -1,4 +1,4 @@
-import React, {useContext, useMemo} from 'react';
+import React, {useCallback, useContext, useMemo} from 'react';
 import {
   Image,
   SafeAreaView,
@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {useTheme} from '@react-navigation/native';
+import {useFocusEffect, useTheme} from '@react-navigation/native';
 
 import Logo from '../assets/logo.svg';
 import {AppContext} from '../AppContext';
@@ -21,7 +21,14 @@ export default function HomeScreen() {
   const isDarkMode = useColorScheme() === 'dark';
   const {height: windowHeight} = useWindowDimensions();
   const {colors} = useTheme();
-  const {currentShowInfo, setShowInfoModalVisible} = useContext(AppContext);
+  const {currentShowInfo, refreshTrackData, setShowInfoModalVisible} =
+    useContext(AppContext);
+
+  useFocusEffect(
+    useCallback(() => {
+      refreshTrackData();
+    }, [refreshTrackData]),
+  );
 
   const styles = useMemo(() => {
     return StyleSheet.create({

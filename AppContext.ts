@@ -9,6 +9,7 @@ interface AppContext {
   setCurrentShowInfo: React.Dispatch<
     React.SetStateAction<ShowInfo | undefined>
   >;
+  refreshTrackData: () => Promise<void>;
   showInfoModalVisible: boolean;
   setShowInfoModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -18,6 +19,7 @@ export const AppContext = createContext<AppContext>({
   setCurrentShowTitle: () => {},
   currentShowInfo: undefined,
   setCurrentShowInfo: () => {},
+  refreshTrackData: () => new Promise(() => {}),
   showInfoModalVisible: false,
   setShowInfoModalVisible: () => {},
 });
