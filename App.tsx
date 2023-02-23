@@ -1,5 +1,12 @@
 import React, {useMemo, useState} from 'react';
-import {StyleSheet, Text, useColorScheme, View} from 'react-native';
+import {
+  Linking,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from 'react-native';
 import {
   NavigationContainer,
   DefaultTheme,
@@ -18,6 +25,13 @@ import PlayBar from './components/PlayBar';
 import HomeScreen from './screens/HomeScreen';
 import ScheduleScreen from './screens/ScheduleScreen';
 import {ShowInfo} from './features/shows/types';
+
+function getShowInstagramUrl(handle: string) {
+  const normalizedHandle = handle.startsWith('@')
+    ? handle.substring(1)
+    : handle;
+  return `https://instagram.com/${normalizedHandle}`;
+}
 
 const Tab = createBottomTabNavigator();
 
@@ -50,6 +64,11 @@ function App(): JSX.Element {
           fontSize: 24,
           fontWeight: 'bold',
         },
+        showInfoSocialContainer: {flexDirection: 'row', alignItems: 'center'},
+        showInfoSocialHandle: {
+          marginLeft: 2,
+          textDecorationLine: 'underline',
+        },
         showInfoTagline: {
           marginTop: 16,
         },
@@ -73,6 +92,37 @@ function App(): JSX.Element {
             <Text style={[styles.showInfoText, styles.showInfoName]}>
               {currentShowInfo?.name}
             </Text>
+            {currentShowInfo?.instagram ? (
+              <TouchableOpacity
+                onPress={() =>
+                  currentShowInfo.instagram &&
+                  Linking.openURL(
+                    getShowInstagramUrl(currentShowInfo.instagram),
+                  )
+                }
+                style={styles.showInfoSocialContainer}>
+                <Icon name="instagram" />
+                <Text style={styles.showInfoSocialHandle}>
+                  {currentShowInfo.instagram}
+                </Text>
+              </TouchableOpacity>
+            ) : null}
+            {currentShowInfo?.twitter ? (
+              <TouchableOpacity
+                onPress={() =>
+                  currentShowInfo.twitter &&
+                  Linking.openURL(
+                    `https://twitter.com/${currentShowInfo.twitter}`,
+                  )
+                }
+                style={styles.showInfoSocialContainer}>
+                <Icon name="twitter" />
+                <Text style={styles.showInfoSocialHandle}>
+                  {currentShowInfo.twitter}
+                </Text>
+              </TouchableOpacity>
+            ) : null}
+
             <Text style={[styles.showInfoText, styles.showInfoTagline]}>
               {currentShowInfo?.tagline}
             </Text>
