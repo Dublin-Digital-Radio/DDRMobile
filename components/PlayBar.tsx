@@ -51,7 +51,7 @@ export default function PlayBar() {
         title: shows.current.name,
         artist: 'DDR',
         // Todo: Add placeholder artwork
-        artwork: showInfo?.image.data.attributes.url ?? undefined,
+        artwork: showInfo?.image?.data.attributes.url ?? undefined,
       });
     }
   }, [setCurrentShowInfo]);
@@ -121,7 +121,7 @@ export default function PlayBar() {
         url: streamUrl,
         title: currentShowTitle,
         artist: 'DDR',
-        artwork: currentShowInfo?.image.data.attributes.url ?? undefined,
+        artwork: currentShowInfo?.image?.data.attributes.url ?? undefined,
       });
       await TrackPlayer.play();
       setButtonStatus('pause');
@@ -137,13 +137,13 @@ export default function PlayBar() {
           url: streamUrl,
           title: currentShowTitle,
           artist: 'DDR',
-          artwork: currentShowInfo?.image.data.attributes.url ?? undefined,
+          artwork: currentShowInfo?.image?.data.attributes.url ?? undefined,
         });
         await TrackPlayer.play();
         setButtonStatus('pause');
       }
     }
-  }, [currentShowInfo?.image.data.attributes.url, currentShowTitle]);
+  }, [currentShowInfo?.image?.data.attributes.url, currentShowTitle]);
 
   const styles = useMemo(
     () =>
@@ -152,7 +152,8 @@ export default function PlayBar() {
           backgroundColor: colors.background,
           borderColor: colors.border,
           borderTopWidth: 2,
-          padding: 8,
+          paddingHorizontal: 8,
+          paddingVertical: 4,
           flexDirection: 'row',
         },
         iconButton: {

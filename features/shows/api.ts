@@ -34,7 +34,15 @@ export async function fetchShowInfo(showName: string) {
       showInfoResponse => showInfoResponse as StrapiEntryListResponse<ShowInfo>,
     )
     .then(showInfoResponse => showInfoResponse.data)
-    .then(
-      showInfoEntries => showInfoEntries[0] && showInfoEntries[0].attributes,
-    );
+    .then(showInfoEntries => {
+      if (showInfoEntries[0]) {
+        let showInfo = showInfoEntries[0].attributes;
+        if (showInfo.image) {
+          showInfo.image.data.attributes.url =
+            showInfo.image.data.attributes.url.replace(/^http:/, 'https:');
+        }
+
+        return showInfo;
+      }
+    });
 }
