@@ -1,12 +1,5 @@
-import React, {useMemo, useState} from 'react';
-import {
-  Linking,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React, {useState} from 'react';
+import {useColorScheme} from 'react-native';
 import {
   NavigationContainer,
   DefaultTheme,
@@ -17,7 +10,6 @@ import {
   BottomTabBar,
   BottomTabBarProps,
 } from '@react-navigation/bottom-tabs';
-import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import {AppContext} from './AppContext';
@@ -25,13 +17,7 @@ import PlayBar from './components/PlayBar';
 import HomeScreen from './screens/HomeScreen';
 import ScheduleScreen from './screens/ScheduleScreen';
 import {ShowInfo} from './features/shows/types';
-
-function getShowInstagramUrl(handle: string) {
-  const normalizedHandle = handle.startsWith('@')
-    ? handle.substring(1)
-    : handle;
-  return `https://instagram.com/${normalizedHandle}`;
-}
+import ShowInfoModal from './features/shows/ShowInfoModal';
 
 const Tab = createBottomTabNavigator();
 
@@ -49,33 +35,6 @@ function App(): JSX.Element {
   const [currentShowInfo, setCurrentShowInfo] = useState<ShowInfo>();
   const [showInfoModalVisible, setShowInfoModalVisible] = useState(false);
 
-  const styles = useMemo(
-    () =>
-      StyleSheet.create({
-        showInfoModal: {
-          backgroundColor: DefaultTheme.colors.background,
-          padding: 16,
-          borderRadius: 8,
-        },
-        showInfoText: {
-          color: DefaultTheme.colors.text,
-        },
-        showInfoName: {
-          fontSize: 24,
-          fontWeight: 'bold',
-        },
-        showInfoSocialContainer: {flexDirection: 'row', alignItems: 'center'},
-        showInfoSocialHandle: {
-          marginLeft: 2,
-          textDecorationLine: 'underline',
-        },
-        showInfoTagline: {
-          marginTop: 16,
-        },
-      }),
-    [],
-  );
-
   return (
     <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
       <AppContext.Provider
@@ -85,49 +44,7 @@ function App(): JSX.Element {
           showInfoModalVisible,
           setShowInfoModalVisible,
         }}>
-        <Modal
-          isVisible={showInfoModalVisible}
-          onBackdropPress={() => setShowInfoModalVisible(false)}>
-          <View style={styles.showInfoModal}>
-            <Text style={[styles.showInfoText, styles.showInfoName]}>
-              {currentShowInfo?.name}
-            </Text>
-            {currentShowInfo?.instagram ? (
-              <TouchableOpacity
-                onPress={() =>
-                  currentShowInfo.instagram &&
-                  Linking.openURL(
-                    getShowInstagramUrl(currentShowInfo.instagram),
-                  )
-                }
-                style={styles.showInfoSocialContainer}>
-                <Icon name="instagram" />
-                <Text style={styles.showInfoSocialHandle}>
-                  {currentShowInfo.instagram}
-                </Text>
-              </TouchableOpacity>
-            ) : null}
-            {currentShowInfo?.twitter ? (
-              <TouchableOpacity
-                onPress={() =>
-                  currentShowInfo.twitter &&
-                  Linking.openURL(
-                    `https://twitter.com/${currentShowInfo.twitter}`,
-                  )
-                }
-                style={styles.showInfoSocialContainer}>
-                <Icon name="twitter" />
-                <Text style={styles.showInfoSocialHandle}>
-                  {currentShowInfo.twitter}
-                </Text>
-              </TouchableOpacity>
-            ) : null}
-
-            <Text style={[styles.showInfoText, styles.showInfoTagline]}>
-              {currentShowInfo?.tagline}
-            </Text>
-          </View>
-        </Modal>
+        <ShowInfoModal />
         <Tab.Navigator
           tabBar={CustomBottomTabBar}
           screenOptions={({route}) => ({
