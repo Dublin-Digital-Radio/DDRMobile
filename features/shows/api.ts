@@ -27,7 +27,7 @@ export async function getShows() {
 
 export async function fetchShowInfo(showName: string) {
   return await fetch(
-    `https://ddr-cms.fly.dev/api/shows?filters[name][$eqi]=${showName}`,
+    `https://ddr-cms.fly.dev/api/shows?filters[name][$eqi]=${showName}&populate=*`,
   )
     .then(response => response.json())
     .then(

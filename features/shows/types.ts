@@ -1,5 +1,7 @@
+import {StrapiEntryResponse} from '../../utils/strapi';
+
 export interface ShowInfo {
   name: string;
   tagline: string;
-  secureImageUrl?: string | null;
+  image: StrapiEntryResponse<{url: string}>;
 }
