@@ -7,9 +7,13 @@ interface AppContext {
   setCurrentShowInfo: React.Dispatch<
     React.SetStateAction<ShowInfo | undefined>
   >;
+  showInfoModalVisible: boolean;
+  setShowInfoModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AppContext = createContext<AppContext>({
   currentShowInfo: undefined,
   setCurrentShowInfo: () => {},
+  showInfoModalVisible: false,
+  setShowInfoModalVisible: () => {},
 });

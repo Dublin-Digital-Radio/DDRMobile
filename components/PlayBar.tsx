@@ -13,9 +13,8 @@ import TrackPlayer, {
   State as TrackPlayerState,
   AppKilledPlaybackBehavior,
 } from 'react-native-track-player';
-import {DefaultTheme, useTheme} from '@react-navigation/native';
+import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
-import Modal from 'react-native-modal';
 
 import {AppContext} from '../AppContext';
 import {
@@ -28,12 +27,12 @@ const streamUrl =
   'https://dublindigitalradio.out.airtime.pro/dublindigitalradio_a';
 
 export default function PlayBar() {
-  const {currentShowInfo, setCurrentShowInfo} = useContext(AppContext);
+  const {currentShowInfo, setCurrentShowInfo, setShowInfoModalVisible} =
+    useContext(AppContext);
   const [buttonStatus, setButtonStatus] = useState<
     'play' | 'pause' | 'loading1'
   >('play');
   const [currentShowTitle, setCurrentShowTitle] = useState('...');
-  const [showInfoModalVisible, setShowInfoModalVisible] = useState(false);
   const {colors} = useTheme();
 
   const refreshTrackData = useCallback(async () => {
@@ -171,39 +170,12 @@ export default function PlayBar() {
         showInfoButton: {
           marginLeft: 8,
         },
-        showInfoModal: {
-          backgroundColor: DefaultTheme.colors.background,
-          padding: 16,
-          borderRadius: 8,
-        },
-        showInfoText: {
-          color: DefaultTheme.colors.text,
-        },
-        showInfoName: {
-          fontSize: 24,
-          fontWeight: 'bold',
-        },
-        showInfoTagline: {
-          marginTop: 16,
-        },
       }),
     [colors.background, colors.border, colors.text],
   );
 
   return (
     <View style={styles.container}>
-      <Modal
-        isVisible={showInfoModalVisible}
-        onBackdropPress={() => setShowInfoModalVisible(false)}>
-        <View style={styles.showInfoModal}>
-          <Text style={[styles.showInfoText, styles.showInfoName]}>
-            {currentShowInfo?.name}
-          </Text>
-          <Text style={[styles.showInfoText, styles.showInfoTagline]}>
-            {currentShowInfo?.tagline}
-          </Text>
-        </View>
-      </Modal>
       <TouchableOpacity onPress={toggleStream}>
         <Icon
           name={buttonStatus === 'play' ? 'play' : 'pausecircle'}

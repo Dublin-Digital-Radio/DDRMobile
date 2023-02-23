@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {useColorScheme} from 'react-native';
+import React, {useMemo, useState} from 'react';
+import {StyleSheet, Text, useColorScheme, View} from 'react-native';
 import {
   NavigationContainer,
   DefaultTheme,
@@ -10,6 +10,7 @@ import {
   BottomTabBar,
   BottomTabBarProps,
 } from '@react-navigation/bottom-tabs';
+import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import {AppContext} from './AppContext';
@@ -32,6 +33,29 @@ function CustomBottomTabBar(props: BottomTabBarProps) {
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const [currentShowInfo, setCurrentShowInfo] = useState<ShowInfo>();
+  const [showInfoModalVisible, setShowInfoModalVisible] = useState(false);
+
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        showInfoModal: {
+          backgroundColor: DefaultTheme.colors.background,
+          padding: 16,
+          borderRadius: 8,
+        },
+        showInfoText: {
+          color: DefaultTheme.colors.text,
+        },
+        showInfoName: {
+          fontSize: 24,
+          fontWeight: 'bold',
+        },
+        showInfoTagline: {
+          marginTop: 16,
+        },
+      }),
+    [],
+  );
 
   return (
     <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
@@ -39,7 +63,21 @@ function App(): JSX.Element {
         value={{
           currentShowInfo,
           setCurrentShowInfo,
+          showInfoModalVisible,
+          setShowInfoModalVisible,
         }}>
+        <Modal
+          isVisible={showInfoModalVisible}
+          onBackdropPress={() => setShowInfoModalVisible(false)}>
+          <View style={styles.showInfoModal}>
+            <Text style={[styles.showInfoText, styles.showInfoName]}>
+              {currentShowInfo?.name}
+            </Text>
+            <Text style={[styles.showInfoText, styles.showInfoTagline]}>
+              {currentShowInfo?.tagline}
+            </Text>
+          </View>
+        </Modal>
         <Tab.Navigator
           tabBar={CustomBottomTabBar}
           screenOptions={({route}) => ({

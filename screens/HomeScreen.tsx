@@ -5,6 +5,7 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TouchableHighlight,
   useColorScheme,
   useWindowDimensions,
   View,
@@ -20,7 +21,7 @@ export default function HomeScreen() {
   const isDarkMode = useColorScheme() === 'dark';
   const {height: windowHeight} = useWindowDimensions();
   const {colors} = useTheme();
-  const {currentShowInfo} = useContext(AppContext);
+  const {currentShowInfo, setShowInfoModalVisible} = useContext(AppContext);
 
   const styles = useMemo(() => {
     return StyleSheet.create({
@@ -86,10 +87,12 @@ export default function HomeScreen() {
               <View style={styles.liveNowDot} />
               <Text style={styles.liveNowText}>Live now</Text>
             </View>
-            <Image
-              style={styles.liveNowImage}
-              source={{uri: currentShowInfo?.image.data.attributes.url}}
-            />
+            <TouchableHighlight onPress={() => setShowInfoModalVisible(true)}>
+              <Image
+                style={styles.liveNowImage}
+                source={{uri: currentShowInfo?.image.data.attributes.url}}
+              />
+            </TouchableHighlight>
           </View>
         ) : null}
       </GestureHandlerRootView>
