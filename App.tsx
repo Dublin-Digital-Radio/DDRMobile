@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useColorScheme} from 'react-native';
 import {
   NavigationContainer,
@@ -12,9 +12,11 @@ import {
 } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/AntDesign';
 
+import {AppContext} from './AppContext';
 import PlayBar from './components/PlayBar';
 import HomeScreen from './screens/HomeScreen';
 import ScheduleScreen from './screens/ScheduleScreen';
+import {ShowInfo} from './features/shows/types';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,36 +31,43 @@ function CustomBottomTabBar(props: BottomTabBarProps) {
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+  const [currentShowInfo, setCurrentShowInfo] = useState<ShowInfo>();
 
   return (
     <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
-      <Tab.Navigator
-        tabBar={CustomBottomTabBar}
-        screenOptions={({route}) => ({
-          headerShown: false,
-          // Below is the maintainer's recommended way to define tabBarIcon
-          // eslint-disable-next-line react/no-unstable-nested-components
-          tabBarIcon: ({color, size}) => {
-            let iconName;
+      <AppContext.Provider
+        value={{
+          currentShowInfo,
+          setCurrentShowInfo,
+        }}>
+        <Tab.Navigator
+          tabBar={CustomBottomTabBar}
+          screenOptions={({route}) => ({
+            headerShown: false,
+            // Below is the maintainer's recommended way to define tabBarIcon
+            // eslint-disable-next-line react/no-unstable-nested-components
+            tabBarIcon: ({color, size}) => {
+              let iconName;
 
-            if (route.name === 'Home') {
-              iconName = 'home';
-            }
+              if (route.name === 'Home') {
+                iconName = 'home';
+              }
 
-            if (route.name === 'Schedule') {
-              iconName = 'calendar';
-            }
+              if (route.name === 'Schedule') {
+                iconName = 'calendar';
+              }
 
-            return iconName ? (
-              <Icon name={iconName} size={size} color={color} />
-            ) : null;
-          },
-          tabBarActiveTintColor: isDarkMode ? 'white' : 'black',
-          tabBarInactiveTintColor: 'gray',
-        })}>
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Schedule" component={ScheduleScreen} />
-      </Tab.Navigator>
+              return iconName ? (
+                <Icon name={iconName} size={size} color={color} />
+              ) : null;
+            },
+            tabBarActiveTintColor: isDarkMode ? 'white' : 'black',
+            tabBarInactiveTintColor: 'gray',
+          })}>
+          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="Schedule" component={ScheduleScreen} />
+        </Tab.Navigator>
+      </AppContext.Provider>
     </NavigationContainer>
   );
 }
