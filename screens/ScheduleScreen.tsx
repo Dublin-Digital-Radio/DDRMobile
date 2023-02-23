@@ -148,9 +148,11 @@ export default function ScheduleScreen() {
     return () => appStateSubscription.remove();
   }, [refreshSchedule]);
 
-  useFocusEffect(() => {
-    refreshSchedule();
-  });
+  useFocusEffect(
+    useCallback(() => {
+      refreshSchedule();
+    }, [refreshSchedule]),
+  );
 
   const styles = useMemo(
     () =>
