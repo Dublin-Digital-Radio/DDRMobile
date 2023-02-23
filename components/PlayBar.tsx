@@ -1,4 +1,10 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import {AppState, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import TrackPlayer, {
   useTrackPlayerEvents,
@@ -10,62 +16,24 @@ import TrackPlayer, {
 import {DefaultTheme, useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Modal from 'react-native-modal';
-// The airtime library doesn't have type declarations yet.
-// @ts-expect-error
-import airtime from 'airtime-pro-api';
 
-import {StrapiEntryListResponse} from '../utils/strapi';
-
-interface ShowInfo {
-  name: string;
-  tagline: string;
-  secureImageUrl?: string | null;
-}
+import {AppContext} from '../AppContext';
+import {
+  convertAirtimeToCmsShowName,
+  fetchShowInfo,
+  getShows,
+} from '../features/shows/api';
 
 const streamUrl =
   'https://dublindigitalradio.out.airtime.pro/dublindigitalradio_a';
 
-async function getShows() {
-  const ddrAirtime = airtime.init({stationName: 'dublindigitalradio'});
-  try {
-    const res = await ddrAirtime.liveInfoV2();
-    return res.shows;
-  } catch (err: any) {
-    return;
-  }
-}
-
-async function fetchShowInfo(showName: string) {
-  return await fetch(
-    `https://ddr-cms.fly.dev/api/shows?filters[name][$eqi]=${showName}`,
-  )
-    .then(response => response.json())
-    .then(
-      showInfoResponse => showInfoResponse as StrapiEntryListResponse<ShowInfo>,
-    )
-    .then(showInfoResponse => showInfoResponse.data)
-    .then(
-      showInfoEntries => showInfoEntries[0] && showInfoEntries[0].attributes,
-    );
-}
-
-function convertAirtimeToCmsShowName(airtimeShowName: string) {
-  const trimmedAirtimeShowName = airtimeShowName
-    ? decodeURIComponent(airtimeShowName)
-        .split('|')
-        .map(showNameFragment => showNameFragment.trim())[0]
-    : '';
-
-  return (trimmedAirtimeShowName ?? '').replace(/\s*\(R\)/, '');
-}
-
 export default function PlayBar() {
+  const {currentShowInfo, setCurrentShowInfo} = useContext(AppContext);
   const [buttonStatus, setButtonStatus] = useState<
     'play' | 'pause' | 'loading1'
   >('play');
   const [currentShowTitle, setCurrentShowTitle] = useState('...');
   const [showInfoModalVisible, setShowInfoModalVisible] = useState(false);
-  const [currentShowInfo, setCurrentShowInfo] = useState<ShowInfo>();
   const {colors} = useTheme();
 
   const refreshTrackData = useCallback(async () => {
@@ -86,7 +54,7 @@ export default function PlayBar() {
         artwork: showInfo?.secureImageUrl ?? undefined,
       });
     }
-  }, []);
+  }, [setCurrentShowInfo]);
 
   useEffect(() => {
     const appStateSubscription = AppState.addEventListener(
