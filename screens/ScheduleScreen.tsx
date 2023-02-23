@@ -172,15 +172,16 @@ export default function ScheduleScreen() {
       <ScrollView>
         {schedule.map((day, dayIndex) => {
           return (
-            <>
+            <React.Fragment key={day.dayName}>
               <Text style={styles.scheduleDay}>{day.dayName}</Text>
               {day.shows.map((show, showIndex) => (
                 <ScheduleDayRow
+                  key={`${day.dayName}-${show.name}-${show.start_timestamp}`}
                   show={show}
                   isLiveShow={dayIndex === 0 && showIndex === liveShowIndex}
                 />
               ))}
-            </>
+            </React.Fragment>
           );
         })}
       </ScrollView>
