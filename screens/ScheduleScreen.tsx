@@ -1,5 +1,12 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  AppState,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 // The airtime library doesn't have type declarations yet.
 // @ts-expect-error
 import airtime from 'airtime-pro-api';
@@ -112,25 +119,38 @@ export default function ScheduleScreen() {
     setSchedule(scheduleByDay(weekInfo));
   }, []);
 
-  useEffect(() => {
-    fetchSchedule();
-  }, [fetchSchedule]);
+  const refreshSchedule = useCallback(async () => {
+    const currentDayName = format(new Date(), 'eeee');
+    if (currentDayName !== schedule[0]?.dayName) {
+      await fetchSchedule();
+    }
+    const currentTime = new Date();
+    const currentLiveShowIndex = (schedule[0]?.shows ?? []).findIndex(
+      ({start_timestamp, end_timestamp}) =>
+        isAfter(currentTime, new Date(start_timestamp)) &&
+        isBefore(currentTime, new Date(end_timestamp)),
+    );
+    setLiveShowIndex(currentLiveShowIndex);
+  }, [fetchSchedule, schedule]);
 
-  useFocusEffect(
-    useCallback(() => {
-      const currentDayName = format(new Date(), 'eeee');
-      if (currentDayName !== schedule[0]?.dayName) {
-        fetchSchedule();
-      }
-      const currentTime = new Date();
-      const currentLiveShowIndex = (schedule[0]?.shows ?? []).findIndex(
-        ({start_timestamp, end_timestamp}) =>
-          isAfter(currentTime, new Date(start_timestamp)) &&
-          isBefore(currentTime, new Date(end_timestamp)),
-      );
-      setLiveShowIndex(currentLiveShowIndex);
-    }, [fetchSchedule, schedule]),
-  );
+  useEffect(() => {
+    refreshSchedule();
+
+    const appStateSubscription = AppState.addEventListener(
+      'change',
+      async nextAppState => {
+        if (nextAppState === 'active') {
+          await refreshSchedule();
+        }
+      },
+    );
+
+    return () => appStateSubscription.remove();
+  }, [refreshSchedule]);
+
+  useFocusEffect(() => {
+    refreshSchedule();
+  });
 
   const styles = useMemo(
     () =>
