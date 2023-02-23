@@ -1,105 +1,26 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import {AppState, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useCallback, useContext, useMemo, useState} from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import TrackPlayer, {
   useTrackPlayerEvents,
-  Capability as TrackPlayerCapability,
   Event as TrackPlayerEvent,
   State as TrackPlayerState,
-  AppKilledPlaybackBehavior,
 } from 'react-native-track-player';
 import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import {AppContext} from '../AppContext';
-import {
-  convertAirtimeToCmsShowName,
-  fetchShowInfo,
-  getShows,
-} from '../features/shows/api';
 
 const streamUrl =
   'https://dublindigitalradio.out.airtime.pro/dublindigitalradio_a';
 
 export default function PlayBar() {
-  const {currentShowInfo, setCurrentShowInfo, setShowInfoModalVisible} =
+  const {currentShowTitle, currentShowInfo, setShowInfoModalVisible} =
     useContext(AppContext);
   const [buttonStatus, setButtonStatus] = useState<
     'play' | 'pause' | 'loading1'
   >('play');
-  const [currentShowTitle, setCurrentShowTitle] = useState('...');
+
   const {colors} = useTheme();
-
-  const refreshTrackData = useCallback(async () => {
-    const shows = await getShows();
-    setCurrentShowTitle(shows.current.name);
-
-    const cmsShowName = convertAirtimeToCmsShowName(shows.current.name);
-
-    const showInfo = await fetchShowInfo(cmsShowName);
-    setCurrentShowInfo(showInfo);
-
-    const currentTrack = await TrackPlayer.getTrack(0);
-    if (currentTrack !== null) {
-      TrackPlayer.updateMetadataForTrack(0, {
-        title: shows.current.name,
-        artist: 'DDR',
-        // Todo: Add placeholder artwork
-        artwork: showInfo?.image?.data.attributes.url ?? undefined,
-      });
-    }
-  }, [setCurrentShowInfo]);
-
-  useEffect(() => {
-    const appStateSubscription = AppState.addEventListener(
-      'change',
-      async nextAppState => {
-        if (nextAppState === 'active') {
-          await refreshTrackData();
-        }
-      },
-    );
-
-    return () => appStateSubscription.remove();
-  }, [refreshTrackData]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        await TrackPlayer.setupPlayer();
-      } catch (error) {
-        if (
-          error instanceof Error &&
-          // Ignore this error when reloading the app often during development
-          error.message !==
-            'The player has already been initialized via setupPlayer.'
-        ) {
-          console.error(error);
-        }
-      }
-
-      TrackPlayer.updateOptions({
-        capabilities: [TrackPlayerCapability.Play, TrackPlayerCapability.Pause],
-
-        compactCapabilities: [
-          TrackPlayerCapability.Play,
-          TrackPlayerCapability.Pause,
-        ],
-
-        android: {
-          appKilledPlaybackBehavior:
-            AppKilledPlaybackBehavior.StopPlaybackAndRemoveNotification,
-        },
-      });
-
-      await refreshTrackData();
-    })();
-  }, [refreshTrackData]);
 
   useTrackPlayerEvents([TrackPlayerEvent.PlaybackState], event => {
     if (event.type === TrackPlayerEvent.PlaybackState) {

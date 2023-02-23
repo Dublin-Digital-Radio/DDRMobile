@@ -3,6 +3,8 @@ import React, {createContext} from 'react';
 import {ShowInfo} from './features/shows/types';
 
 interface AppContext {
+  currentShowTitle: string;
+  setCurrentShowTitle: React.Dispatch<React.SetStateAction<string>>;
   currentShowInfo?: ShowInfo;
   setCurrentShowInfo: React.Dispatch<
     React.SetStateAction<ShowInfo | undefined>
@@ -12,6 +14,8 @@ interface AppContext {
 }
 
 export const AppContext = createContext<AppContext>({
+  currentShowTitle: '...',
+  setCurrentShowTitle: () => {},
   currentShowInfo: undefined,
   setCurrentShowInfo: () => {},
   showInfoModalVisible: false,
