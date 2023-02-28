@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
+  Alert,
   AppState,
   SafeAreaView,
   ScrollView,
@@ -7,11 +8,16 @@ import {
   Text,
   View,
 } from 'react-native';
+import qs from 'qs';
 // The airtime library doesn't have type declarations yet.
 // @ts-expect-error
 import airtime from 'airtime-pro-api';
 import {add, format, isAfter, isBefore} from 'date-fns';
 import {useFocusEffect, useTheme} from '@react-navigation/native';
+import {convertAirtimeToCmsShowName} from '../features/shows/api';
+import {ShowInfo} from '../features/shows/types';
+import {StrapiEntryListResponse} from '../utils/strapi';
+import {TouchableHighlight} from 'react-native-gesture-handler';
 
 interface Show {
   name: string;
@@ -26,7 +32,7 @@ interface AirtimeDaySchedule {
 
 const ddrAirtime = airtime.init({stationName: 'dublindigitalradio'});
 
-const scheduleByDay = (data: {[dayName: string]: Show[]}) => {
+const getScheduleByDay = (data: {[dayName: string]: Show[]}) => {
   const schedule: AirtimeDaySchedule[] = [];
   const today = new Date();
   const todayDayName = format(today, 'eeee');
@@ -62,9 +68,11 @@ const scheduleByDay = (data: {[dayName: string]: Show[]}) => {
 
 function ScheduleDayRow({
   show,
+  showInfo,
   isLiveShow = false,
 }: {
   show: Show;
+  showInfo?: ShowInfo;
   isLiveShow?: boolean;
 }) {
   const {colors} = useTheme();
@@ -88,6 +96,9 @@ function ScheduleDayRow({
           fontWeight: 'bold',
           color: colors.primary,
         },
+        hasShowInfo: {
+          textDecorationLine: 'underline',
+        },
       }),
     [colors.primary, colors.text],
   );
@@ -101,9 +112,17 @@ function ScheduleDayRow({
         </Text>
       </View>
       <View style={styles.showNameCell}>
-        <Text style={[styles.text, isLiveShow ? styles.isLiveShow : {}]}>
-          {show.name}
-        </Text>
+        <TouchableHighlight
+          onPress={() => showInfo && Alert.alert(showInfo.tagline)}>
+          <Text
+            style={[
+              styles.text,
+              isLiveShow ? styles.isLiveShow : {},
+              showInfo ? styles.hasShowInfo : {},
+            ]}>
+            {show.name}
+          </Text>
+        </TouchableHighlight>
       </View>
     </View>
   );
@@ -111,12 +130,52 @@ function ScheduleDayRow({
 
 export default function ScheduleScreen() {
   const [schedule, setSchedule] = useState<AirtimeDaySchedule[]>([]);
+  const [showInfoItems, setShowInfoItems] = useState<Record<string, ShowInfo>>(
+    {},
+  );
   const [liveShowIndex, setLiveShowIndex] = useState(-1);
   const {colors} = useTheme();
 
   const fetchSchedule = useCallback(async () => {
     const weekInfo = await ddrAirtime.weekInfo();
-    setSchedule(scheduleByDay(weekInfo));
+    const scheduleByDay = getScheduleByDay(weekInfo);
+    const allShows = [
+      ...new Set(
+        scheduleByDay.reduce<string[]>(
+          (acc, day) =>
+            acc.concat(
+              ...day.shows.map(show => convertAirtimeToCmsShowName(show.name)),
+            ),
+          [],
+        ),
+      ),
+    ];
+    const query = qs.stringify({
+      filters: {
+        name: {
+          $in: allShows,
+        },
+      },
+    });
+    const showInfoItemsResult = await fetch(
+      `https://ddr-cms.fly.dev/api/shows?${query}`,
+    )
+      .then(response => response.json())
+      .then(
+        showInfoItemsResponse =>
+          showInfoItemsResponse as StrapiEntryListResponse<ShowInfo>,
+      )
+      .then(showInfoItemsResponse =>
+        showInfoItemsResponse.data
+          .map(
+            showInfoItemsResponseEntry => showInfoItemsResponseEntry.attributes,
+          )
+          .reduce<Record<string, ShowInfo>>((acc, showInfo) => {
+            return {...acc, [showInfo.name]: showInfo};
+          }, {}),
+      );
+    setSchedule(getScheduleByDay(weekInfo));
+    setShowInfoItems(showInfoItemsResult);
   }, []);
 
   const refreshSchedule = useCallback(async () => {
@@ -197,6 +256,9 @@ export default function ScheduleScreen() {
                 <ScheduleDayRow
                   key={`${day.dayName}-${show.name}-${show.start_timestamp}`}
                   show={show}
+                  showInfo={
+                    showInfoItems[convertAirtimeToCmsShowName(show.name)]
+                  }
                   isLiveShow={dayIndex === 0 && showIndex === liveShowIndex}
                 />
               ))}
