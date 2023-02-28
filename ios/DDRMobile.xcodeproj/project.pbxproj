@@ -184,6 +184,7 @@
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
 			name = DDRMobileTests;
+			productName = DDRMobileTests;
 			productReference = 00E356EE1AD99517003FC87E /* DDRMobileTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -505,6 +506,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ALVH744F86;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DDRMobile/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Dublin Digital Radio";
@@ -534,6 +536,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ALVH744F86;
 				INFOPLIST_FILE = DDRMobile/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Dublin Digital Radio";
 				LD_RUNPATH_SEARCH_PATHS = (
