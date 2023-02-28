@@ -27,6 +27,7 @@ import HomeScreen from './screens/HomeScreen';
 import ScheduleScreen from './screens/ScheduleScreen';
 import {ShowInfo} from './features/shows/types';
 import ShowInfoModal from './features/shows/ShowInfoModal';
+import {placeholderArtworkUrl} from './features/media-player/constants';
 
 const Tab = createBottomTabNavigator();
 
@@ -59,7 +60,7 @@ function App(): JSX.Element {
         title: shows.current.name,
         artist: 'DDR',
         // Todo: Add placeholder artwork
-        artwork: showInfo?.image?.data.attributes.url ?? undefined,
+        artwork: showInfo?.image?.data.attributes.url ?? placeholderArtworkUrl,
       });
     }
   }, []);

@@ -9,6 +9,7 @@ import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import {AppContext} from '../AppContext';
+import {placeholderArtworkUrl} from '../features/media-player/constants';
 
 const streamUrl =
   'https://dublindigitalradio.out.airtime.pro/dublindigitalradio_a';
@@ -41,7 +42,8 @@ export default function PlayBar() {
         url: streamUrl,
         title: currentShowTitle,
         artist: 'DDR',
-        artwork: currentShowInfo?.image?.data.attributes.url ?? undefined,
+        artwork:
+          currentShowInfo?.image?.data.attributes.url ?? placeholderArtworkUrl,
       });
       await TrackPlayer.play();
       setButtonStatus('pause');
@@ -57,7 +59,9 @@ export default function PlayBar() {
           url: streamUrl,
           title: currentShowTitle,
           artist: 'DDR',
-          artwork: currentShowInfo?.image?.data.attributes.url ?? undefined,
+          artwork:
+            currentShowInfo?.image?.data.attributes.url ??
+            placeholderArtworkUrl,
         });
         await TrackPlayer.play();
         setButtonStatus('pause');
