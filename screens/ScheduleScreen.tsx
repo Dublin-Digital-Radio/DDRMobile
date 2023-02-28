@@ -124,13 +124,15 @@ export default function ScheduleScreen() {
     if (currentDayName !== schedule[0]?.dayName) {
       await fetchSchedule();
     }
-    const currentTime = new Date();
-    const currentLiveShowIndex = (schedule[0]?.shows ?? []).findIndex(
-      ({start_timestamp, end_timestamp}) =>
-        isAfter(currentTime, new Date(start_timestamp)) &&
-        isBefore(currentTime, new Date(end_timestamp)),
-    );
-    setLiveShowIndex(currentLiveShowIndex);
+    if (schedule[0]?.shows.length && schedule[0]?.shows.length > 0) {
+      const currentTime = new Date();
+      const currentLiveShowIndex = (schedule[0]?.shows ?? []).findIndex(
+        ({start_timestamp, end_timestamp}) =>
+          isAfter(currentTime, new Date(start_timestamp)) &&
+          isBefore(currentTime, new Date(end_timestamp)),
+      );
+      setLiveShowIndex(currentLiveShowIndex);
+    }
   }, [fetchSchedule, schedule]);
 
   useEffect(() => {
