@@ -160,7 +160,14 @@ export default function ScheduleScreen() {
         flexContainer: {
           flex: 1,
         },
-
+        loadingTextContainer: {
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        loadingText: {
+          fontSize: 24,
+          color: colors.text,
+        },
         scheduleDay: {
           fontSize: 24,
           color: colors.text,
@@ -168,6 +175,14 @@ export default function ScheduleScreen() {
       }),
     [colors.text],
   );
+
+  if (schedule.length === 0) {
+    return (
+      <SafeAreaView style={[styles.flexContainer, styles.loadingTextContainer]}>
+        <Text style={styles.loadingText}>Loading...</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.flexContainer}>
