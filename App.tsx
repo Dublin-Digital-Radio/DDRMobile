@@ -145,6 +145,10 @@ function App(): JSX.Element {
             },
             tabBarActiveTintColor: isDarkMode ? 'white' : 'black',
             tabBarInactiveTintColor: 'gray',
+            tabBarLabelStyle: {
+              fontFamily: 'Chivo-Regular',
+              textTransform: 'uppercase',
+            },
           })}>
           <Tab.Screen name="Home" component={HomeScreen} />
           <Tab.Screen name="Schedule" component={ScheduleScreen} />

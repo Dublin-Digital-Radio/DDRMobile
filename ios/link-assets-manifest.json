@@ -1,0 +1,37 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Chivo-Black.ttf",
+      "sha1": "8216619d45bf0c9a5dc4adad1ea3da92d3614cfc"
+    },
+    {
+      "path": "assets/fonts/Chivo-BlackItalic.ttf",
+      "sha1": "39fa211a69d80eb8848b8c4d277e73262168df86"
+    },
+    {
+      "path": "assets/fonts/Chivo-Bold.ttf",
+      "sha1": "46a43078de8eb38c9d8a7f830c6f2e7ed0f024d0"
+    },
+    {
+      "path": "assets/fonts/Chivo-BoldItalic.ttf",
+      "sha1": "4c31d8d2133cddc2a0eef1b3af95bba315f67791"
+    },
+    {
+      "path": "assets/fonts/Chivo-Italic.ttf",
+      "sha1": "67360e90181ff92d04a8bf08d3a17a2df79d6ed0"
+    },
+    {
+      "path": "assets/fonts/Chivo-Light.ttf",
+      "sha1": "06700551340c9f40e2fc82c4f3fb071fcd6c801b"
+    },
+    {
+      "path": "assets/fonts/Chivo-LightItalic.ttf",
+      "sha1": "792926078d3bb613fc98775a0235deb0653c0fbd"
+    },
+    {
+      "path": "assets/fonts/Chivo-Regular.ttf",
+      "sha1": "10a1fe49ed7fcb05cbca310f204da1b889736883"
+    }
+  ]
+}

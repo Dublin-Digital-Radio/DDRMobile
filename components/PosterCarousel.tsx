@@ -1,10 +1,11 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {Image, Linking, View, StyleSheet, Text} from 'react-native';
+import {Image, Linking, View, StyleSheet} from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 import {useTheme} from '@react-navigation/native';
 
 import {StrapiEntryResponse, StrapiEntryListResponse} from '../utils/strapi';
+import Text from './Text';
 
 interface Poster {
   name?: string;
@@ -26,11 +27,11 @@ function PosterCarouselItem({item, height}: {item: Poster; height: number}) {
         },
         posterName: {
           fontSize: 24,
-          color: colors.text,
+          textTransform: 'uppercase',
           textDecorationLine: 'underline',
         },
       }),
-    [colors.background, colors.text],
+    [colors.background],
   );
 
   return (

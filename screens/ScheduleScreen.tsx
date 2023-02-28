@@ -4,7 +4,6 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 // The airtime library doesn't have type declarations yet.
@@ -12,6 +11,7 @@ import {
 import airtime from 'airtime-pro-api';
 import {add, format, isAfter, isBefore} from 'date-fns';
 import {useFocusEffect, useTheme} from '@react-navigation/native';
+import Text from '../components/Text';
 
 interface Show {
   name: string;
@@ -81,29 +81,24 @@ function ScheduleDayRow({
         showNameCell: {
           flex: 2,
         },
-        text: {
-          color: colors.text,
-        },
         isLiveShow: {
-          fontWeight: 'bold',
+          fontFamily: 'Chivo-Bold',
           color: colors.primary,
         },
       }),
-    [colors.primary, colors.text],
+    [colors.primary],
   );
 
   return (
     <View style={styles.scheduleDayContainer}>
       <View style={styles.showTimeCell}>
-        <Text style={[styles.text, isLiveShow ? styles.isLiveShow : {}]}>
+        <Text style={isLiveShow ? styles.isLiveShow : {}}>
           {format(new Date(show.start_timestamp), 'HH:mm')} -{' '}
           {format(new Date(show.end_timestamp), 'HH:mm')}
         </Text>
       </View>
       <View style={styles.showNameCell}>
-        <Text style={[styles.text, isLiveShow ? styles.isLiveShow : {}]}>
-          {show.name}
-        </Text>
+        <Text style={isLiveShow ? styles.isLiveShow : {}}>{show.name}</Text>
       </View>
     </View>
   );
@@ -112,7 +107,6 @@ function ScheduleDayRow({
 export default function ScheduleScreen() {
   const [schedule, setSchedule] = useState<AirtimeDaySchedule[]>([]);
   const [liveShowIndex, setLiveShowIndex] = useState(-1);
-  const {colors} = useTheme();
 
   const fetchSchedule = useCallback(async () => {
     const weekInfo = await ddrAirtime.weekInfo();
@@ -168,14 +162,13 @@ export default function ScheduleScreen() {
         },
         loadingText: {
           fontSize: 24,
-          color: colors.text,
         },
         scheduleDay: {
           fontSize: 24,
-          color: colors.text,
+          textTransform: 'uppercase',
         },
       }),
-    [colors.text],
+    [],
   );
 
   if (schedule.length === 0) {

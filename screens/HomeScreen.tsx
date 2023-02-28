@@ -4,7 +4,6 @@ import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
-  Text,
   TouchableHighlight,
   useColorScheme,
   useWindowDimensions,
@@ -16,6 +15,7 @@ import {useFocusEffect, useTheme} from '@react-navigation/native';
 import Logo from '../assets/logo.svg';
 import {AppContext} from '../AppContext';
 import PosterCarousel from '../components/PosterCarousel';
+import Text from '../components/Text';
 
 export default function HomeScreen() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -57,9 +57,8 @@ export default function HomeScreen() {
         marginRight: 4,
       },
       liveNowText: {
-        color: colors.text,
         fontSize: 20,
-        fontWeight: 'bold',
+        fontFamily: 'Chivo-Bold',
         textTransform: 'uppercase',
       },
       liveNowImage: {
@@ -70,7 +69,7 @@ export default function HomeScreen() {
         borderColor: colors.border,
       },
     });
-  }, [colors.border, colors.text, windowHeight]);
+  }, [colors.border, windowHeight]);
 
   return (
     <SafeAreaView style={styles.flexContainer}>

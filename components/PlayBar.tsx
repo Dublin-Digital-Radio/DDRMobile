@@ -1,5 +1,5 @@
 import React, {useCallback, useContext, useMemo, useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import TrackPlayer, {
   useTrackPlayerEvents,
   Event as TrackPlayerEvent,
@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 
 import {AppContext} from '../AppContext';
 import {placeholderArtworkUrl} from '../features/media-player/constants';
+import Text from './Text';
 
 const streamUrl =
   'https://dublindigitalradio.out.airtime.pro/dublindigitalradio_a';
@@ -102,8 +103,8 @@ export default function PlayBar() {
           marginLeft: 12,
           flexDirection: 'row',
         },
-        liveNow: {
-          color: colors.text,
+        showTitleText: {
+          textTransform: 'uppercase',
         },
         showInfoButton: {
           marginLeft: 8,
@@ -122,7 +123,7 @@ export default function PlayBar() {
         />
       </TouchableOpacity>
       <View style={styles.infoContainer}>
-        <Text style={styles.liveNow}>Live now: {currentShowTitle}</Text>
+        <Text style={styles.showTitleText}>Live now: {currentShowTitle}</Text>
         {currentShowTitle !== '...' && currentShowInfo ? (
           <TouchableOpacity
             style={styles.showInfoButton}

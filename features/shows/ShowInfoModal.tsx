@@ -1,10 +1,11 @@
 import React, {useContext, useMemo} from 'react';
-import {Linking, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Linking, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {DefaultTheme} from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import {AppContext} from '../../AppContext';
+import Text from '../../components/Text';
 
 function getShowInstagramUrl(handle: string) {
   const normalizedHandle = handle.startsWith('@')
@@ -29,8 +30,9 @@ export default function ShowInfoModal() {
           color: DefaultTheme.colors.text,
         },
         showInfoName: {
+          fontFamily: 'Chivo-Bold',
           fontSize: 24,
-          fontWeight: 'bold',
+          textTransform: 'uppercase',
         },
         showInfoSocialContainer: {flexDirection: 'row', alignItems: 'center'},
         showInfoSocialHandle: {
