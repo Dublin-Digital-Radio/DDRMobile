@@ -14,12 +14,24 @@ import {placeholderArtworkUrl} from '../features/media-player/constants';
 const streamUrl =
   'https://dublindigitalradio.out.airtime.pro/dublindigitalradio_a';
 
+type ButtonStatus = 'play' | 'pause' | 'loading';
+
+function getIconFromPlaybackState(buttonStatus: ButtonStatus) {
+  if (buttonStatus === 'play') {
+    return 'play';
+  }
+
+  if (buttonStatus === 'loading') {
+    return 'ellipsis1';
+  }
+
+  return 'pausecircle';
+}
+
 export default function PlayBar() {
   const {currentShowTitle, currentShowInfo, setShowInfoModalVisible} =
     useContext(AppContext);
-  const [buttonStatus, setButtonStatus] = useState<
-    'play' | 'pause' | 'loading1'
-  >('play');
+  const [buttonStatus, setButtonStatus] = useState<ButtonStatus>('play');
 
   const {colors} = useTheme();
 
@@ -31,6 +43,10 @@ export default function PlayBar() {
 
       if (event.state === TrackPlayerState.Paused) {
         setButtonStatus('play');
+      }
+
+      if (event.state === TrackPlayerState.Connecting) {
+        setButtonStatus('loading');
       }
     }
   });
@@ -46,11 +62,9 @@ export default function PlayBar() {
           currentShowInfo?.image?.data.attributes.url ?? placeholderArtworkUrl,
       });
       await TrackPlayer.play();
-      setButtonStatus('pause');
     } else {
       if (playerState === TrackPlayerState.Playing) {
         await TrackPlayer.pause();
-        setButtonStatus('play');
       }
 
       if (playerState === TrackPlayerState.Paused) {
@@ -64,7 +78,6 @@ export default function PlayBar() {
             placeholderArtworkUrl,
         });
         await TrackPlayer.play();
-        setButtonStatus('pause');
       }
     }
   }, [currentShowInfo?.image?.data.attributes.url, currentShowTitle]);
@@ -103,7 +116,7 @@ export default function PlayBar() {
     <View style={styles.container}>
       <TouchableOpacity onPress={toggleStream}>
         <Icon
-          name={buttonStatus === 'play' ? 'play' : 'pausecircle'}
+          name={getIconFromPlaybackState(buttonStatus)}
           size={40}
           style={styles.iconButton}
         />
