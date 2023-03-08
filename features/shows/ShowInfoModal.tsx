@@ -49,7 +49,9 @@ export default function ShowInfoModal() {
   return (
     <Modal
       isVisible={showInfoModalVisible}
-      onBackdropPress={() => setShowInfoModalVisible(false)}>
+      onBackdropPress={() => setShowInfoModalVisible(false)}
+      onSwipeComplete={() => setShowInfoModalVisible(false)}
+      swipeDirection="down">
       <View style={styles.showInfoModal}>
         <Text style={[styles.showInfoText, styles.showInfoName]}>
           {currentShowInfo?.name}
