@@ -156,6 +156,9 @@ export default function ScheduleScreen() {
         flexContainer: {
           flex: 1,
         },
+        scheduleContainer: {
+          paddingHorizontal: 8,
+        },
         loadingTextContainer: {
           justifyContent: 'center',
           alignItems: 'center',
@@ -182,20 +185,22 @@ export default function ScheduleScreen() {
   return (
     <SafeAreaView style={styles.flexContainer}>
       <ScrollView>
-        {schedule.map((day, dayIndex) => {
-          return (
-            <React.Fragment key={day.dayName}>
-              <Text style={styles.scheduleDay}>{day.dayName}</Text>
-              {day.shows.map((show, showIndex) => (
-                <ScheduleDayRow
-                  key={`${day.dayName}-${show.name}-${show.start_timestamp}`}
-                  show={show}
-                  isLiveShow={dayIndex === 0 && showIndex === liveShowIndex}
-                />
-              ))}
-            </React.Fragment>
-          );
-        })}
+        <View style={styles.scheduleContainer}>
+          {schedule.map((day, dayIndex) => {
+            return (
+              <React.Fragment key={day.dayName}>
+                <Text style={styles.scheduleDay}>{day.dayName}</Text>
+                {day.shows.map((show, showIndex) => (
+                  <ScheduleDayRow
+                    key={`${day.dayName}-${show.name}-${show.start_timestamp}`}
+                    show={show}
+                    isLiveShow={dayIndex === 0 && showIndex === liveShowIndex}
+                  />
+                ))}
+              </React.Fragment>
+            );
+          })}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
