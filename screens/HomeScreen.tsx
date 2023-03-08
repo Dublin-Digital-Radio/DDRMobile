@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {useFocusEffect, useTheme} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 import Logo from '../assets/logo.svg';
 import {AppContext} from '../AppContext';
@@ -68,6 +69,13 @@ export default function HomeScreen() {
         borderWidth: 2,
         borderColor: colors.border,
       },
+      liveNowImageInfoContainer: {
+        position: 'absolute',
+        bottom: 4,
+        left: 4,
+        borderRadius: 999,
+        backgroundColor: 'white',
+      },
     });
   }, [colors.border, windowHeight]);
 
@@ -94,10 +102,15 @@ export default function HomeScreen() {
               <Text style={styles.liveNowText}>Live now</Text>
             </View>
             <TouchableHighlight onPress={() => setShowInfoModalVisible(true)}>
-              <Image
-                style={styles.liveNowImage}
-                source={{uri: currentShowInfo?.image.data.attributes.url}}
-              />
+              <>
+                <Image
+                  style={styles.liveNowImage}
+                  source={{uri: currentShowInfo?.image.data.attributes.url}}
+                />
+                <View style={styles.liveNowImageInfoContainer}>
+                  <Icon name="infocirlceo" color="black" size={20} />
+                </View>
+              </>
             </TouchableHighlight>
           </View>
         ) : null}
