@@ -1,5 +1,11 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {AppState, useColorScheme} from 'react-native';
+import {
+  AppState,
+  Linking,
+  Platform,
+  Pressable,
+  useColorScheme,
+} from 'react-native';
 import {
   NavigationContainer,
   DefaultTheme,
@@ -9,6 +15,7 @@ import {
   createBottomTabNavigator,
   BottomTabBar,
   BottomTabBarProps,
+  BottomTabBarButtonProps,
 } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/AntDesign';
 import TrackPlayer, {
@@ -28,6 +35,10 @@ import ScheduleScreen from './screens/ScheduleScreen';
 import {ShowInfo} from './features/shows/types';
 import ShowInfoModal from './features/shows/ShowInfoModal';
 import {placeholderArtworkUrl} from './features/media-player/constants';
+import ChatScreen from './screens/ChatScreen';
+import {useFetchDiscordInviteUrl} from './features/chat/useFetchDiscordInviteUrl';
+
+const discordOnWebsiteUrl = 'https://listen.dublindigitalradio.com/discord';
 
 const Tab = createBottomTabNavigator();
 
@@ -42,9 +53,12 @@ function CustomBottomTabBar(props: BottomTabBarProps) {
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+  const {discordInviteUrl, discordInviteDeepLinkUri} =
+    useFetchDiscordInviteUrl();
   const [currentShowTitle, setCurrentShowTitle] = useState('...');
   const [currentShowInfo, setCurrentShowInfo] = useState<ShowInfo>();
   const [showInfoModalVisible, setShowInfoModalVisible] = useState(false);
+
   const refreshTrackData = useCallback(async () => {
     const shows = await getShows();
     setCurrentShowTitle(shows.current.name);
@@ -64,6 +78,54 @@ function App(): JSX.Element {
       });
     }
   }, []);
+
+  const chatTabBarButtonFactory = useCallback(
+    (navigation: {navigate: (screenName: string) => void}) => {
+      return (props: BottomTabBarButtonProps) => {
+        if (!discordInviteUrl || !discordInviteDeepLinkUri) {
+          /*
+           * In this case, the API endpoint is broken somehow
+           * and we cannot get the invite URL, fall back to the website
+           */
+          return (
+            <Pressable
+              {...props}
+              onPress={() => {
+                Linking.openURL(discordOnWebsiteUrl);
+              }}
+            />
+          );
+        }
+
+        return (
+          <Pressable
+            {...props}
+            onPress={() => {
+              if (Platform.OS === 'ios') {
+                Linking.canOpenURL(discordInviteDeepLinkUri)
+                  .then(() => {
+                    return Linking.openURL(discordInviteDeepLinkUri);
+                  })
+                  .catch(() => {
+                    navigation.navigate('Chat');
+                  });
+              } else {
+                // Android doesn't seem to be able to handle the discord:// scheme.
+                Linking.canOpenURL(discordInviteUrl)
+                  .then(() => {
+                    Linking.openURL(discordInviteUrl);
+                  })
+                  .catch(() => {
+                    navigation.navigate('Chat');
+                  });
+              }
+            }}
+          />
+        );
+      };
+    },
+    [discordInviteDeepLinkUri, discordInviteUrl],
+  );
 
   useEffect(() => {
     (async () => {
@@ -139,6 +201,10 @@ function App(): JSX.Element {
                 iconName = 'calendar';
               }
 
+              if (route.name === 'Chat') {
+                iconName = 'wechat';
+              }
+
               return iconName ? (
                 <Icon name={iconName} size={size} color={color} />
               ) : null;
@@ -152,6 +218,13 @@ function App(): JSX.Element {
           })}>
           <Tab.Screen name="Home" component={HomeScreen} />
           <Tab.Screen name="Schedule" component={ScheduleScreen} />
+          <Tab.Screen
+            name="Chat"
+            component={ChatScreen}
+            options={({navigation}) => ({
+              tabBarButton: chatTabBarButtonFactory(navigation),
+            })}
+          />
         </Tab.Navigator>
       </AppContext.Provider>
     </NavigationContainer>
