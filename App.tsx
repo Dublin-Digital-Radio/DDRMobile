@@ -25,6 +25,7 @@ import TrackPlayer, {
 
 import {AppContext} from './AppContext';
 import {
+  decodeAirtimeShowName,
   convertAirtimeToCmsShowName,
   fetchShowInfo,
   getShows,
@@ -61,7 +62,8 @@ function App(): JSX.Element {
 
   const refreshTrackData = useCallback(async () => {
     const shows = await getShows();
-    setCurrentShowTitle(shows.current.name);
+    const decodedAirtimeShowName = decodeAirtimeShowName(shows.current.name);
+    setCurrentShowTitle(decodedAirtimeShowName);
 
     const cmsShowName = convertAirtimeToCmsShowName(shows.current.name);
 
@@ -71,7 +73,7 @@ function App(): JSX.Element {
     const currentTrack = await TrackPlayer.getTrack(0);
     if (currentTrack !== null) {
       TrackPlayer.updateMetadataForTrack(0, {
-        title: shows.current.name,
+        title: decodedAirtimeShowName,
         artist: 'DDR',
         // Todo: Add placeholder artwork
         artwork: showInfo?.image?.data.attributes.url ?? placeholderArtworkUrl,

@@ -11,7 +11,9 @@ import {
 import airtime from 'airtime-pro-api';
 import {add, format, isAfter, isBefore} from 'date-fns';
 import {useFocusEffect, useTheme} from '@react-navigation/native';
+
 import Text from '../components/Text';
+import {decodeAirtimeShowName} from '../features/shows/api';
 
 interface Show {
   name: string;
@@ -98,7 +100,9 @@ function ScheduleDayRow({
         </Text>
       </View>
       <View style={styles.showNameCell}>
-        <Text style={isLiveShow ? styles.isLiveShow : {}}>{show.name}</Text>
+        <Text style={isLiveShow ? styles.isLiveShow : {}}>
+          {decodeAirtimeShowName(show.name)}
+        </Text>
       </View>
     </View>
   );

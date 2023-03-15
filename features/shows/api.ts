@@ -1,9 +1,14 @@
 // The airtime library doesn't have type declarations yet.
 // @ts-expect-error
 import airtime from 'airtime-pro-api';
+import {decode} from 'html-entities';
 
 import {ShowInfo} from '../../features/shows/types';
 import {StrapiEntryListResponse} from '../../utils/strapi';
+
+export function decodeAirtimeShowName(airtimeShowName: string) {
+  return decode(airtimeShowName);
+}
 
 export function convertAirtimeToCmsShowName(airtimeShowName: string) {
   const trimmedAirtimeShowName = airtimeShowName
@@ -12,7 +17,7 @@ export function convertAirtimeToCmsShowName(airtimeShowName: string) {
         .map(showNameFragment => showNameFragment.trim())[0]
     : '';
 
-  return (trimmedAirtimeShowName ?? '').replace(/\s*\(R\)/, '');
+  return decode((trimmedAirtimeShowName ?? '').replace(/\s*\(R\)/, ''));
 }
 
 export async function getShows() {
@@ -27,7 +32,9 @@ export async function getShows() {
 
 export async function fetchShowInfo(showName: string) {
   return await fetch(
-    `https://ddr-cms.fly.dev/api/shows?filters[name][$eqi]=${showName}&populate=*`,
+    `https://ddr-cms.fly.dev/api/shows?filters[name][$eqi]=${encodeURIComponent(
+      showName,
+    )}&populate=*`,
   )
     .then(response => response.json())
     .then(
