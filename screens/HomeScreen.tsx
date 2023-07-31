@@ -13,7 +13,6 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {useFocusEffect, useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-import Logo from '../assets/logo.svg';
 import {AppContext} from '../AppContext';
 import PosterCarousel from '../components/PosterCarousel';
 import Text from '../components/Text';
@@ -83,15 +82,12 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.flexContainer}>
       <GestureHandlerRootView style={styles.flexContainer}>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <View style={styles.logoContainer}>
-          <Logo width={windowHeight * 0.1} height={windowHeight * 0.1} />
-        </View>
         <View style={[styles.flexContainer, styles.posterCarouselContainer]}>
           <PosterCarousel
             height={
               currentShowInfo?.image?.data.attributes.url
-                ? windowHeight * 0.3
-                : windowHeight * 0.4
+                ? windowHeight * 0.4
+                : windowHeight * 0.5
             }
           />
         </View>
