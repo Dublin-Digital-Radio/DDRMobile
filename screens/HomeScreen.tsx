@@ -37,7 +37,9 @@ export default function HomeScreen() {
         flex: 1,
       },
       logoContainer: {
-        height: windowHeight * 0.11,
+        position: 'absolute',
+        top: 5,
+        left: 5,
         justifyContent: 'center',
         alignItems: 'center',
       },
@@ -84,16 +86,7 @@ export default function HomeScreen() {
       <GestureHandlerRootView style={styles.flexContainer}>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
         <View style={styles.logoContainer}>
-          <Logo width={windowHeight * 0.1} height={windowHeight * 0.1} />
-        </View>
-        <View style={[styles.flexContainer, styles.posterCarouselContainer]}>
-          <PosterCarousel
-            height={
-              currentShowInfo?.image?.data.attributes.url
-                ? windowHeight * 0.3
-                : windowHeight * 0.4
-            }
-          />
+          <Logo width={windowHeight * 0.08} height={windowHeight * 0.08} />
         </View>
         {currentShowInfo?.image?.data.attributes.url ? (
           <View style={[styles.flexContainer, styles.posterCarouselContainer]}>
@@ -114,6 +107,15 @@ export default function HomeScreen() {
             </TouchableHighlight>
           </View>
         ) : null}
+        <View style={[styles.flexContainer, styles.posterCarouselContainer]}>
+          <PosterCarousel
+            height={
+              currentShowInfo?.image?.data.attributes.url
+                ? windowHeight * 0.4
+                : windowHeight * 0.5
+            }
+          />
+        </View>
       </GestureHandlerRootView>
     </SafeAreaView>
   );

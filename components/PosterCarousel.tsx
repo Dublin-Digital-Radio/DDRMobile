@@ -83,7 +83,6 @@ export default function PosterCarousel({height}: {height: number}) {
     () =>
       StyleSheet.create({
         carousel: {
-          width: '100%',
           justifyContent: 'center',
         },
       }),
@@ -101,8 +100,13 @@ export default function PosterCarousel({height}: {height: number}) {
       pagingEnabled
       width={height}
       height={height}
-      mode="horizontal-stack"
-      modeConfig={{}}
+      mode="parallax"
+      vertical
+      modeConfig={{
+        parallaxScrollingScale: 0.9,
+        parallaxAdjacentItemScale: 0.8,
+        parallaxScrollingOffset: 50
+      }}
       style={styles.carousel}
     />
   );
