@@ -46,15 +46,15 @@ export default function PlayBar() {
         setButtonStatus('play');
       }
 
-      if (event.state === TrackPlayerState.Connecting) {
+      if (event.state === TrackPlayerState.Loading) {
         setButtonStatus('loading');
       }
     }
   });
 
   const toggleStream = useCallback(async () => {
-    const playerState = await TrackPlayer.getState();
-    if (playerState === TrackPlayerState.None) {
+    const {state} = await TrackPlayer.getPlaybackState();
+    if (state === TrackPlayerState.None) {
       await TrackPlayer.add({
         url: streamUrl,
         title: currentShowTitle,
@@ -64,11 +64,11 @@ export default function PlayBar() {
       });
       await TrackPlayer.play();
     } else {
-      if (playerState === TrackPlayerState.Playing) {
+      if (state === TrackPlayerState.Playing) {
         await TrackPlayer.pause();
       }
 
-      if (playerState === TrackPlayerState.Paused) {
+      if (state === TrackPlayerState.Paused) {
         await TrackPlayer.reset();
         await TrackPlayer.add({
           url: streamUrl,

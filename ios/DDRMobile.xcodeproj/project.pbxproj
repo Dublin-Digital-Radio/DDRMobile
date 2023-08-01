@@ -14,15 +14,15 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		383AD3282989D6E80026B26B /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 383AD31B2989D5FB0026B26B /* AntDesign.ttf */; };
 		386C2368298548ED0075FC9D /* EnableBridgingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386C2367298548ED0075FC9D /* EnableBridgingHeader.swift */; };
+		666FFCDD6C134A48896FA5BE /* Chivo-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A388569FAB59425E9D03689F /* Chivo-BoldItalic.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-DDRMobile-DDRMobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-DDRMobile-DDRMobileTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		D1EA731EB7A34B6EB6B0BDB2 /* Chivo-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5325DCA39C5A4C81BA4E60DA /* Chivo-Black.ttf */; };
 		C0E7CF613D9245629808DB4D /* Chivo-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 62DAD60995E24196AAB59A69 /* Chivo-BlackItalic.ttf */; };
-		E3C0A2A3914F4BA197D048D3 /* Chivo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDACA0A67DCA4C2890BBD110 /* Chivo-Bold.ttf */; };
-		666FFCDD6C134A48896FA5BE /* Chivo-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A388569FAB59425E9D03689F /* Chivo-BoldItalic.ttf */; };
 		C19CAC09EF8A486AB0BC1FC7 /* Chivo-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F86A76F95E04C0EB70550F6 /* Chivo-Italic.ttf */; };
+		D1EA731EB7A34B6EB6B0BDB2 /* Chivo-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5325DCA39C5A4C81BA4E60DA /* Chivo-Black.ttf */; };
 		D31199D0511B40FF9FFED573 /* Chivo-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 912CD38ACDE245F79C627F57 /* Chivo-Light.ttf */; };
 		D484A804461442AF9964DCD0 /* Chivo-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3CB6469F9EB436A91A3CA72 /* Chivo-LightItalic.ttf */; };
+		E3C0A2A3914F4BA197D048D3 /* Chivo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDACA0A67DCA4C2890BBD110 /* Chivo-Bold.ttf */; };
 		EE9D287B46644245B16A8234 /* Chivo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B9E517DC430D40E3B2311A77 /* Chivo-Regular.ttf */; };
 /* End PBXBuildFile section */
 
@@ -51,20 +51,20 @@
 		386C2366298548ED0075FC9D /* DDRMobile-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DDRMobile-Bridging-Header.h"; sourceTree = "<group>"; };
 		386C2367298548ED0075FC9D /* EnableBridgingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableBridgingHeader.swift; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-DDRMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDRMobile.debug.xcconfig"; path = "Target Support Files/Pods-DDRMobile/Pods-DDRMobile.debug.xcconfig"; sourceTree = "<group>"; };
+		3F86A76F95E04C0EB70550F6 /* Chivo-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-Italic.ttf"; path = "../assets/fonts/Chivo-Italic.ttf"; sourceTree = "<group>"; };
+		5325DCA39C5A4C81BA4E60DA /* Chivo-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-Black.ttf"; path = "../assets/fonts/Chivo-Black.ttf"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-DDRMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDRMobile.release.xcconfig"; path = "Target Support Files/Pods-DDRMobile/Pods-DDRMobile.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-DDRMobile-DDRMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDRMobile-DDRMobileTests.debug.xcconfig"; path = "Target Support Files/Pods-DDRMobile-DDRMobileTests/Pods-DDRMobile-DDRMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-DDRMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDRMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		62DAD60995E24196AAB59A69 /* Chivo-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-BlackItalic.ttf"; path = "../assets/fonts/Chivo-BlackItalic.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = DDRMobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-DDRMobile-DDRMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDRMobile-DDRMobileTests.release.xcconfig"; path = "Target Support Files/Pods-DDRMobile-DDRMobileTests/Pods-DDRMobile-DDRMobileTests.release.xcconfig"; sourceTree = "<group>"; };
+		912CD38ACDE245F79C627F57 /* Chivo-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-Light.ttf"; path = "../assets/fonts/Chivo-Light.ttf"; sourceTree = "<group>"; };
+		A388569FAB59425E9D03689F /* Chivo-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-BoldItalic.ttf"; path = "../assets/fonts/Chivo-BoldItalic.ttf"; sourceTree = "<group>"; };
+		B9E517DC430D40E3B2311A77 /* Chivo-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-Regular.ttf"; path = "../assets/fonts/Chivo-Regular.ttf"; sourceTree = "<group>"; };
+		CDACA0A67DCA4C2890BBD110 /* Chivo-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-Bold.ttf"; path = "../assets/fonts/Chivo-Bold.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		5325DCA39C5A4C81BA4E60DA /* Chivo-Black.ttf */ = {isa = PBXFileReference; name = "Chivo-Black.ttf"; path = "../assets/fonts/Chivo-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		62DAD60995E24196AAB59A69 /* Chivo-BlackItalic.ttf */ = {isa = PBXFileReference; name = "Chivo-BlackItalic.ttf"; path = "../assets/fonts/Chivo-BlackItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		CDACA0A67DCA4C2890BBD110 /* Chivo-Bold.ttf */ = {isa = PBXFileReference; name = "Chivo-Bold.ttf"; path = "../assets/fonts/Chivo-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		A388569FAB59425E9D03689F /* Chivo-BoldItalic.ttf */ = {isa = PBXFileReference; name = "Chivo-BoldItalic.ttf"; path = "../assets/fonts/Chivo-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		3F86A76F95E04C0EB70550F6 /* Chivo-Italic.ttf */ = {isa = PBXFileReference; name = "Chivo-Italic.ttf"; path = "../assets/fonts/Chivo-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		912CD38ACDE245F79C627F57 /* Chivo-Light.ttf */ = {isa = PBXFileReference; name = "Chivo-Light.ttf"; path = "../assets/fonts/Chivo-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		F3CB6469F9EB436A91A3CA72 /* Chivo-LightItalic.ttf */ = {isa = PBXFileReference; name = "Chivo-LightItalic.ttf"; path = "../assets/fonts/Chivo-LightItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		B9E517DC430D40E3B2311A77 /* Chivo-Regular.ttf */ = {isa = PBXFileReference; name = "Chivo-Regular.ttf"; path = "../assets/fonts/Chivo-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F3CB6469F9EB436A91A3CA72 /* Chivo-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-LightItalic.ttf"; path = "../assets/fonts/Chivo-LightItalic.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +116,22 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = DDRMobile;
+			sourceTree = "<group>";
+		};
+		1823F7C914274537976F08F6 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5325DCA39C5A4C81BA4E60DA /* Chivo-Black.ttf */,
+				62DAD60995E24196AAB59A69 /* Chivo-BlackItalic.ttf */,
+				CDACA0A67DCA4C2890BBD110 /* Chivo-Bold.ttf */,
+				A388569FAB59425E9D03689F /* Chivo-BoldItalic.ttf */,
+				3F86A76F95E04C0EB70550F6 /* Chivo-Italic.ttf */,
+				912CD38ACDE245F79C627F57 /* Chivo-Light.ttf */,
+				F3CB6469F9EB436A91A3CA72 /* Chivo-LightItalic.ttf */,
+				B9E517DC430D40E3B2311A77 /* Chivo-Regular.ttf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -180,22 +196,6 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
-		};
-		1823F7C914274537976F08F6 /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-				5325DCA39C5A4C81BA4E60DA /* Chivo-Black.ttf */,
-				62DAD60995E24196AAB59A69 /* Chivo-BlackItalic.ttf */,
-				CDACA0A67DCA4C2890BBD110 /* Chivo-Bold.ttf */,
-				A388569FAB59425E9D03689F /* Chivo-BoldItalic.ttf */,
-				3F86A76F95E04C0EB70550F6 /* Chivo-Italic.ttf */,
-				912CD38ACDE245F79C627F57 /* Chivo-Light.ttf */,
-				F3CB6469F9EB436A91A3CA72 /* Chivo-LightItalic.ttf */,
-				B9E517DC430D40E3B2311A77 /* Chivo-Regular.ttf */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 
