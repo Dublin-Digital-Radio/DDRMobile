@@ -82,15 +82,6 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.flexContainer}>
       <GestureHandlerRootView style={styles.flexContainer}>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <View style={[styles.flexContainer, styles.posterCarouselContainer]}>
-          <PosterCarousel
-            height={
-              currentShowInfo?.image?.data.attributes.url
-                ? windowHeight * 0.4
-                : windowHeight * 0.5
-            }
-          />
-        </View>
         {currentShowInfo?.image?.data.attributes.url ? (
           <View style={[styles.flexContainer, styles.posterCarouselContainer]}>
             <View style={styles.liveNowTextContainer}>
@@ -110,6 +101,15 @@ export default function HomeScreen() {
             </TouchableHighlight>
           </View>
         ) : null}
+        <View style={[styles.flexContainer, styles.posterCarouselContainer]}>
+          <PosterCarousel
+            height={
+              currentShowInfo?.image?.data.attributes.url
+                ? windowHeight * 0.4
+                : windowHeight * 0.5
+            }
+          />
+        </View>
       </GestureHandlerRootView>
     </SafeAreaView>
   );
