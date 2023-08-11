@@ -44,7 +44,7 @@ export async function fetchShowInfo(showName: string) {
     .then(showInfoEntries => {
       if (showInfoEntries[0]) {
         let showInfo = showInfoEntries[0].attributes;
-        if (showInfo.image) {
+        if (showInfo.image?.data?.attributes.url) {
           showInfo.image.data.attributes.url =
             showInfo.image.data.attributes.url.replace(/^http:/, 'https:');
         }

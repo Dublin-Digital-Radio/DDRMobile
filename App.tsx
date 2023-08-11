@@ -75,8 +75,7 @@ function App(): JSX.Element {
       TrackPlayer.updateMetadataForTrack(0, {
         title: decodedAirtimeShowName,
         artist: 'DDR',
-        // Todo: Add placeholder artwork
-        artwork: showInfo?.image?.data.attributes.url ?? placeholderArtworkUrl,
+        artwork: showInfo?.image?.data?.attributes.url ?? placeholderArtworkUrl,
       });
     }
   }, []);

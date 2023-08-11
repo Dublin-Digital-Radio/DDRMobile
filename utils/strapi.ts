@@ -3,7 +3,7 @@ interface StrapiEntry<T> {
 }
 
 export interface StrapiEntryResponse<T> {
-  data: StrapiEntry<T>;
+  data: StrapiEntry<T> | null;
 }
 
 export interface StrapiEntryListResponse<T> {

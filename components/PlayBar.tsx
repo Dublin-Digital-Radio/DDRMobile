@@ -60,7 +60,7 @@ export default function PlayBar() {
         title: currentShowTitle,
         artist: 'DDR',
         artwork:
-          currentShowInfo?.image?.data.attributes.url ?? placeholderArtworkUrl,
+          currentShowInfo?.image?.data?.attributes.url ?? placeholderArtworkUrl,
       });
       await TrackPlayer.play();
     } else {
@@ -75,13 +75,13 @@ export default function PlayBar() {
           title: currentShowTitle,
           artist: 'DDR',
           artwork:
-            currentShowInfo?.image?.data.attributes.url ??
+            currentShowInfo?.image?.data?.attributes.url ??
             placeholderArtworkUrl,
         });
         await TrackPlayer.play();
       }
     }
-  }, [currentShowInfo?.image?.data.attributes.url, currentShowTitle]);
+  }, [currentShowInfo?.image?.data?.attributes.url, currentShowTitle]);
 
   const styles = useMemo(
     () =>

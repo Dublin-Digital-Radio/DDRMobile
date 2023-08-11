@@ -88,7 +88,7 @@ export default function HomeScreen() {
         <View style={styles.logoContainer}>
           <Logo width={windowHeight * 0.08} height={windowHeight * 0.08} />
         </View>
-        {currentShowInfo?.image?.data.attributes.url ? (
+        {currentShowInfo?.image?.data?.attributes.url ? (
           <View style={[styles.flexContainer, styles.posterCarouselContainer]}>
             <View style={styles.liveNowTextContainer}>
               <View style={styles.liveNowDot} />
@@ -110,7 +110,7 @@ export default function HomeScreen() {
         <View style={[styles.flexContainer, styles.posterCarouselContainer]}>
           <PosterCarousel
             height={
-              currentShowInfo?.image?.data.attributes.url
+              currentShowInfo?.image?.data?.attributes.url
                 ? windowHeight * 0.4
                 : windowHeight * 0.5
             }
