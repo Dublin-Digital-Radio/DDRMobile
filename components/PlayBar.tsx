@@ -102,6 +102,10 @@ export default function PlayBar() {
           alignItems: 'center',
           marginLeft: 12,
           flexDirection: 'row',
+          flex: 1,
+        },
+        showTitleContainer: {
+          flex: 1,
         },
         showTitleText: {
           textTransform: 'uppercase',
@@ -123,13 +127,19 @@ export default function PlayBar() {
         />
       </TouchableOpacity>
       <View style={styles.infoContainer}>
-        <Text style={styles.showTitleText}>Live now: {currentShowTitle}</Text>
+        <View style={styles.showTitleContainer}>
+          <Text numberOfLines={2} style={styles.showTitleText}>
+            Live now: {currentShowTitle}
+          </Text>
+        </View>
         {currentShowTitle !== '...' && currentShowInfo ? (
-          <TouchableOpacity
-            style={styles.showInfoButton}
-            onPress={() => setShowInfoModalVisible(true)}>
-            <Icon name="infocirlceo" size={20} style={styles.iconButton} />
-          </TouchableOpacity>
+          <View>
+            <TouchableOpacity
+              style={styles.showInfoButton}
+              onPress={() => setShowInfoModalVisible(true)}>
+              <Icon name="infocirlceo" size={20} style={styles.iconButton} />
+            </TouchableOpacity>
+          </View>
         ) : null}
       </View>
     </View>
