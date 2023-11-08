@@ -1,4 +1,10 @@
-import React, {useCallback, useContext, useMemo, useState} from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import TrackPlayer, {
   useTrackPlayerEvents,
@@ -11,9 +17,11 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import {AppContext} from '../AppContext';
 import {placeholderArtworkUrl} from '../features/media-player/constants';
 import Text from './Text';
+import {StrapiEntryResponse} from '../utils/strapi';
 
-const streamUrl =
+const airtimeStreamUrl =
   'https://dublindigitalradio.out.airtime.pro/dublindigitalradio_a';
+const liveEventStreamUrl = 'https://stream2.dublindigitalradio.com:8001/stream';
 
 type ButtonStatus = 'play' | 'pause' | 'loading';
 
@@ -29,59 +37,136 @@ function getIconFromPlaybackState(buttonStatus: ButtonStatus) {
   return 'pausecircle';
 }
 
+interface LiveStreamEventData {
+  Title: string;
+  description: string;
+  playerEnabled: boolean;
+}
+
 export default function PlayBar() {
   const {currentShowTitle, currentShowInfo, setShowInfoModalVisible} =
     useContext(AppContext);
-  const [buttonStatus, setButtonStatus] = useState<ButtonStatus>('play');
+  const [airtimeStreamButtonStatus, setAirtimeStreamButtonStatus] =
+    useState<ButtonStatus>('play');
+  const [liveEventStreamButtonStatus, setLiveEventStreamButtonStatus] =
+    useState<ButtonStatus>('play');
+  const [liveEventStreamData, setLiveEventStreamData] = useState<
+    LiveStreamEventData | undefined
+  >();
 
   const {colors} = useTheme();
 
-  useTrackPlayerEvents([TrackPlayerEvent.PlaybackState], event => {
+  const fetchAndSetLiveEventStreamData = useCallback(async () => {
+    const liveEventStream = await fetch(
+      'https://ddr-cms.fly.dev/api/live-stream-config',
+    )
+      .then(response => response.json())
+      .then(response => response as StrapiEntryResponse<LiveStreamEventData>)
+      .then(response => response.data?.attributes);
+
+    if (
+      liveEventStream &&
+      !liveEventStream.playerEnabled &&
+      liveEventStreamButtonStatus === 'pause'
+    ) {
+      TrackPlayer.pause();
+    }
+    setLiveEventStreamData(liveEventStream);
+  }, [liveEventStreamButtonStatus]);
+
+  useEffect(() => {
+    fetchAndSetLiveEventStreamData();
+    const intervalId = setInterval(fetchAndSetLiveEventStreamData, 60000);
+
+    return () => clearInterval(intervalId);
+  }, [fetchAndSetLiveEventStreamData]);
+
+  useTrackPlayerEvents([TrackPlayerEvent.PlaybackState], async event => {
+    const activeTrack = await TrackPlayer.getActiveTrack();
     if (event.type === TrackPlayerEvent.PlaybackState) {
       if (event.state === TrackPlayerState.Playing) {
-        setButtonStatus('pause');
+        if (activeTrack?.url === airtimeStreamUrl) {
+          setAirtimeStreamButtonStatus('pause');
+          setLiveEventStreamButtonStatus('play');
+        }
+
+        if (activeTrack?.url === liveEventStreamUrl) {
+          setAirtimeStreamButtonStatus('play');
+          setLiveEventStreamButtonStatus('pause');
+        }
       }
 
       if (event.state === TrackPlayerState.Paused) {
-        setButtonStatus('play');
+        setAirtimeStreamButtonStatus('play');
+        setLiveEventStreamButtonStatus('play');
       }
 
       if (event.state === TrackPlayerState.Loading) {
-        setButtonStatus('loading');
+        if (activeTrack?.url === airtimeStreamUrl) {
+          setAirtimeStreamButtonStatus('loading');
+        }
+
+        if (activeTrack?.url === liveEventStreamUrl) {
+          setLiveEventStreamButtonStatus('loading');
+        }
       }
     }
   });
 
-  const toggleStream = useCallback(async () => {
-    const {state} = await TrackPlayer.getPlaybackState();
-    if (state === TrackPlayerState.None) {
-      await TrackPlayer.add({
-        url: streamUrl,
-        title: currentShowTitle,
-        artist: 'DDR',
-        artwork:
-          currentShowInfo?.image?.data?.attributes.url ?? placeholderArtworkUrl,
-      });
-      await TrackPlayer.play();
-    } else {
-      if (state === TrackPlayerState.Playing) {
-        await TrackPlayer.pause();
-      }
-
-      if (state === TrackPlayerState.Paused) {
-        await TrackPlayer.reset();
+  const toggleStream = useCallback(
+    async ({
+      streamUrl,
+      title,
+      artworkUrl,
+    }: {
+      streamUrl: string;
+      title: string;
+      artworkUrl: string;
+    }) => {
+      const activeTrack = await TrackPlayer.getActiveTrack();
+      const {state} = await TrackPlayer.getPlaybackState();
+      if (state === TrackPlayerState.None) {
         await TrackPlayer.add({
           url: streamUrl,
-          title: currentShowTitle,
+          title,
           artist: 'DDR',
-          artwork:
-            currentShowInfo?.image?.data?.attributes.url ??
-            placeholderArtworkUrl,
+          artwork: artworkUrl,
         });
         await TrackPlayer.play();
+      } else {
+        if (
+          state === TrackPlayerState.Playing ||
+          state === TrackPlayerState.Loading ||
+          state === TrackPlayerState.Error
+        ) {
+          if (activeTrack?.url === streamUrl) {
+            await TrackPlayer.pause();
+          } else {
+            await TrackPlayer.reset();
+            await TrackPlayer.add({
+              url: streamUrl,
+              title,
+              artist: 'DDR',
+              artwork: artworkUrl,
+            });
+            await TrackPlayer.play();
+          }
+        }
+
+        if (state === TrackPlayerState.Paused) {
+          await TrackPlayer.reset();
+          await TrackPlayer.add({
+            url: streamUrl,
+            title,
+            artist: 'DDR',
+            artwork: artworkUrl,
+          });
+          await TrackPlayer.play();
+        }
       }
-    }
-  }, [currentShowInfo?.image?.data?.attributes.url, currentShowTitle]);
+    },
+    [],
+  );
 
   const styles = useMemo(
     () =>
@@ -118,30 +203,66 @@ export default function PlayBar() {
   );
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={toggleStream}>
-        <Icon
-          name={getIconFromPlaybackState(buttonStatus)}
-          size={40}
-          style={styles.iconButton}
-        />
-      </TouchableOpacity>
-      <View style={styles.infoContainer}>
-        <View style={styles.showTitleContainer}>
-          <Text numberOfLines={2} style={styles.showTitleText}>
-            Live now: {currentShowTitle}
-          </Text>
-        </View>
-        {currentShowTitle !== '...' && currentShowInfo ? (
-          <View>
-            <TouchableOpacity
-              style={styles.showInfoButton}
-              onPress={() => setShowInfoModalVisible(true)}>
-              <Icon name="infocirlceo" size={20} style={styles.iconButton} />
-            </TouchableOpacity>
+    <>
+      <View style={styles.container}>
+        <TouchableOpacity
+          onPress={() =>
+            toggleStream({
+              streamUrl: airtimeStreamUrl,
+              title: currentShowTitle,
+              artworkUrl:
+                currentShowInfo?.image?.data?.attributes.url ??
+                placeholderArtworkUrl,
+            })
+          }>
+          <Icon
+            name={getIconFromPlaybackState(airtimeStreamButtonStatus)}
+            size={40}
+            style={styles.iconButton}
+          />
+        </TouchableOpacity>
+        <View style={styles.infoContainer}>
+          <View style={styles.showTitleContainer}>
+            <Text numberOfLines={2} style={styles.showTitleText}>
+              Live now: {currentShowTitle}
+            </Text>
           </View>
-        ) : null}
+          {currentShowTitle !== '...' && currentShowInfo ? (
+            <View>
+              <TouchableOpacity
+                style={styles.showInfoButton}
+                onPress={() => setShowInfoModalVisible(true)}>
+                <Icon name="infocirlceo" size={20} style={styles.iconButton} />
+              </TouchableOpacity>
+            </View>
+          ) : null}
+        </View>
       </View>
-    </View>
+      {liveEventStreamData && liveEventStreamData.playerEnabled ? (
+        <View style={styles.container}>
+          <TouchableOpacity
+            onPress={() =>
+              toggleStream({
+                streamUrl: liveEventStreamUrl,
+                title: liveEventStreamData.Title,
+                artworkUrl: placeholderArtworkUrl,
+              })
+            }>
+            <Icon
+              name={getIconFromPlaybackState(liveEventStreamButtonStatus)}
+              size={40}
+              style={styles.iconButton}
+            />
+          </TouchableOpacity>
+          <View style={styles.infoContainer}>
+            <View style={styles.showTitleContainer}>
+              <Text numberOfLines={2} style={styles.showTitleText}>
+                Live now: {liveEventStreamData.Title}
+              </Text>
+            </View>
+          </View>
+        </View>
+      ) : null}
+    </>
   );
 }
