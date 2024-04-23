@@ -32,9 +32,10 @@ export async function getShows() {
 
 export async function fetchShowInfo(showName: string) {
   return await fetch(
-    `https://ddr-cms.fly.dev/api/shows?filters[name][$eqi]=${encodeURIComponent(
-      showName,
-    )}&populate=*`,
+    `https://ddr-cms.fly.dev/api/shows?${new URLSearchParams({
+      'filters[name][$eqi]': showName,
+      populate: '*',
+    })}`,
   )
     .then(response => response.json())
     .then(
