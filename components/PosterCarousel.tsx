@@ -105,7 +105,7 @@ export default function PosterCarousel({height}: {height: number}) {
       modeConfig={{
         parallaxScrollingScale: 0.9,
         parallaxAdjacentItemScale: 0.8,
-        parallaxScrollingOffset: 50
+        parallaxScrollingOffset: 50,
       }}
       style={styles.carousel}
     />
