@@ -14,6 +14,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		383AD3282989D6E80026B26B /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 383AD31B2989D5FB0026B26B /* AntDesign.ttf */; };
 		386C2368298548ED0075FC9D /* EnableBridgingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386C2367298548ED0075FC9D /* EnableBridgingHeader.swift */; };
+		38BDDEE02BDA8CFA00C84A7E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 38BDDEDF2BDA8CFA00C84A7E /* PrivacyInfo.xcprivacy */; };
 		666FFCDD6C134A48896FA5BE /* Chivo-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A388569FAB59425E9D03689F /* Chivo-BoldItalic.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-DDRMobile-DDRMobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-DDRMobile-DDRMobileTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
@@ -50,21 +51,22 @@
 		383AD31B2989D5FB0026B26B /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		386C2366298548ED0075FC9D /* DDRMobile-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DDRMobile-Bridging-Header.h"; sourceTree = "<group>"; };
 		386C2367298548ED0075FC9D /* EnableBridgingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableBridgingHeader.swift; sourceTree = "<group>"; };
+		38BDDEDF2BDA8CFA00C84A7E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-DDRMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDRMobile.debug.xcconfig"; path = "Target Support Files/Pods-DDRMobile/Pods-DDRMobile.debug.xcconfig"; sourceTree = "<group>"; };
-		3F86A76F95E04C0EB70550F6 /* Chivo-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-Italic.ttf"; path = "../assets/fonts/Chivo-Italic.ttf"; sourceTree = "<group>"; };
-		5325DCA39C5A4C81BA4E60DA /* Chivo-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-Black.ttf"; path = "../assets/fonts/Chivo-Black.ttf"; sourceTree = "<group>"; };
+		3F86A76F95E04C0EB70550F6 /* Chivo-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-Italic.ttf"; path = "../assets/fonts/Chivo-Italic.ttf"; sourceTree = "<group>"; };
+		5325DCA39C5A4C81BA4E60DA /* Chivo-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-Black.ttf"; path = "../assets/fonts/Chivo-Black.ttf"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-DDRMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDRMobile.release.xcconfig"; path = "Target Support Files/Pods-DDRMobile/Pods-DDRMobile.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-DDRMobile-DDRMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDRMobile-DDRMobileTests.debug.xcconfig"; path = "Target Support Files/Pods-DDRMobile-DDRMobileTests/Pods-DDRMobile-DDRMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-DDRMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDRMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		62DAD60995E24196AAB59A69 /* Chivo-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-BlackItalic.ttf"; path = "../assets/fonts/Chivo-BlackItalic.ttf"; sourceTree = "<group>"; };
+		62DAD60995E24196AAB59A69 /* Chivo-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-BlackItalic.ttf"; path = "../assets/fonts/Chivo-BlackItalic.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = DDRMobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-DDRMobile-DDRMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDRMobile-DDRMobileTests.release.xcconfig"; path = "Target Support Files/Pods-DDRMobile-DDRMobileTests/Pods-DDRMobile-DDRMobileTests.release.xcconfig"; sourceTree = "<group>"; };
-		912CD38ACDE245F79C627F57 /* Chivo-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-Light.ttf"; path = "../assets/fonts/Chivo-Light.ttf"; sourceTree = "<group>"; };
-		A388569FAB59425E9D03689F /* Chivo-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-BoldItalic.ttf"; path = "../assets/fonts/Chivo-BoldItalic.ttf"; sourceTree = "<group>"; };
-		B9E517DC430D40E3B2311A77 /* Chivo-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-Regular.ttf"; path = "../assets/fonts/Chivo-Regular.ttf"; sourceTree = "<group>"; };
-		CDACA0A67DCA4C2890BBD110 /* Chivo-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-Bold.ttf"; path = "../assets/fonts/Chivo-Bold.ttf"; sourceTree = "<group>"; };
+		912CD38ACDE245F79C627F57 /* Chivo-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-Light.ttf"; path = "../assets/fonts/Chivo-Light.ttf"; sourceTree = "<group>"; };
+		A388569FAB59425E9D03689F /* Chivo-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-BoldItalic.ttf"; path = "../assets/fonts/Chivo-BoldItalic.ttf"; sourceTree = "<group>"; };
+		B9E517DC430D40E3B2311A77 /* Chivo-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-Regular.ttf"; path = "../assets/fonts/Chivo-Regular.ttf"; sourceTree = "<group>"; };
+		CDACA0A67DCA4C2890BBD110 /* Chivo-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-Bold.ttf"; path = "../assets/fonts/Chivo-Bold.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F3CB6469F9EB436A91A3CA72 /* Chivo-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-LightItalic.ttf"; path = "../assets/fonts/Chivo-LightItalic.ttf"; sourceTree = "<group>"; };
+		F3CB6469F9EB436A91A3CA72 /* Chivo-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-LightItalic.ttf"; path = "../assets/fonts/Chivo-LightItalic.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,7 +133,6 @@
 				B9E517DC430D40E3B2311A77 /* Chivo-Regular.ttf */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -163,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				386C2367298548ED0075FC9D /* EnableBridgingHeader.swift */,
+				38BDDEDF2BDA8CFA00C84A7E /* PrivacyInfo.xcprivacy */,
 				13B07FAE1A68108700A75B9A /* DDRMobile */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* DDRMobileTests */,
@@ -297,6 +299,7 @@
 				D1EA731EB7A34B6EB6B0BDB2 /* Chivo-Black.ttf in Resources */,
 				C0E7CF613D9245629808DB4D /* Chivo-BlackItalic.ttf in Resources */,
 				E3C0A2A3914F4BA197D048D3 /* Chivo-Bold.ttf in Resources */,
+				38BDDEE02BDA8CFA00C84A7E /* PrivacyInfo.xcprivacy in Resources */,
 				666FFCDD6C134A48896FA5BE /* Chivo-BoldItalic.ttf in Resources */,
 				C19CAC09EF8A486AB0BC1FC7 /* Chivo-Italic.ttf in Resources */,
 				D31199D0511B40FF9FFED573 /* Chivo-Light.ttf in Resources */,
@@ -660,17 +663,14 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-Wl",
-					"-ld_classic",
-				);
+				OTHER_LDFLAGS = "$(inherited)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 			};
@@ -733,17 +733,14 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-Wl",
-					"-ld_classic",
-				);
+				OTHER_LDFLAGS = "$(inherited)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
