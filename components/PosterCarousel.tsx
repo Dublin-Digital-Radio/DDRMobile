@@ -35,13 +35,13 @@ function PosterCarouselItem({item, height}: {item: Poster; height: number}) {
   );
 
   return (
-    <View key={item.image.data.attributes.url}>
+    <View key={item.image.data?.attributes.url}>
       <TouchableHighlight
         onPress={item.url ? () => Linking.openURL(item.url!) : undefined}>
         <View>
           <Image
             style={{width: height, height: height}}
-            source={{uri: item.image.data.attributes.url}}
+            source={{uri: item.image.data?.attributes.url}}
           />
           {item.name ? (
             <View style={styles.posterNameContainer}>

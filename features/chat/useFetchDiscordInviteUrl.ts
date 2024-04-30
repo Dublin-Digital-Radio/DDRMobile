@@ -11,7 +11,7 @@ export function useFetchDiscordInviteUrl() {
     fetch(discordInviteApiUrl)
       .then(response => response.json())
       .then(response => response as StrapiEntryResponse<{URL: string}>)
-      .then(response => setDiscordInviteUrl(response.data.attributes.URL));
+      .then(response => setDiscordInviteUrl(response.data?.attributes.URL));
   }, []);
 
   const discordInviteDeepLinkUri = discordInviteUrl?.replace(
