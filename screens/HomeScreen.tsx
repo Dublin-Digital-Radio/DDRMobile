@@ -13,7 +13,6 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {useFocusEffect, useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-import Logo from '../assets/logo.svg';
 import {AppContext} from '../AppContext';
 import PosterCarousel from '../components/PosterCarousel';
 import Text from '../components/Text';
@@ -36,13 +35,6 @@ export default function HomeScreen() {
       flexContainer: {
         flex: 1,
       },
-      logoContainer: {
-        position: 'absolute',
-        top: 5,
-        left: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
       posterCarouselContainer: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -55,18 +47,18 @@ export default function HomeScreen() {
       liveNowDot: {
         backgroundColor: 'red',
         borderRadius: 999,
-        width: 20,
-        height: 20,
+        width: 16,
+        height: 16,
         marginRight: 4,
       },
       liveNowText: {
-        fontSize: 20,
+        fontSize: 16,
         fontFamily: 'Chivo-Bold',
         textTransform: 'uppercase',
       },
       liveNowImage: {
-        width: windowHeight * 0.3,
-        height: windowHeight * 0.3,
+        width: windowHeight * 0.35,
+        height: windowHeight * 0.35,
         borderRadius: 8,
         borderWidth: 2,
         borderColor: colors.border,
@@ -85,9 +77,6 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.flexContainer}>
       <GestureHandlerRootView style={styles.flexContainer}>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <View style={styles.logoContainer}>
-          <Logo width={windowHeight * 0.08} height={windowHeight * 0.08} />
-        </View>
         {currentShowInfo?.image?.data?.attributes.url ? (
           <View style={[styles.flexContainer, styles.posterCarouselContainer]}>
             <View style={styles.liveNowTextContainer}>

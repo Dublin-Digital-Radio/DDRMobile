@@ -23,6 +23,7 @@ import TrackPlayer, {
   AppKilledPlaybackBehavior,
 } from 'react-native-track-player';
 
+import Logo from './assets/logo.svg';
 import {AppContext} from './AppContext';
 import {
   decodeAirtimeShowName,
@@ -50,6 +51,10 @@ function CustomBottomTabBar(props: BottomTabBarProps) {
       <BottomTabBar {...props} />
     </>
   );
+}
+
+function HomeTabIcon({size}: {size: number}) {
+  return <Logo width={size} height={size} />;
 }
 
 function App(): JSX.Element {
@@ -217,7 +222,13 @@ function App(): JSX.Element {
               textTransform: 'uppercase',
             },
           })}>
-          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{
+              tabBarIcon: HomeTabIcon,
+            }}
+          />
           <Tab.Screen name="Schedule" component={ScheduleScreen} />
           <Tab.Screen
             name="Chat"
