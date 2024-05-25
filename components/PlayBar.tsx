@@ -21,7 +21,8 @@ import {StrapiEntryResponse} from '../utils/strapi';
 
 const airtimeStreamUrl =
   'https://dublindigitalradio.out.airtime.pro/dublindigitalradio_a';
-const liveEventStreamUrl = 'https://stream2.dublindigitalradio.com:8001/stream';
+const defaultLiveEventStreamUrl =
+  'https://stream2.dublindigitalradio.com:8001/stream';
 
 type ButtonStatus = 'play' | 'pause' | 'loading';
 
@@ -41,6 +42,7 @@ interface LiveStreamEventData {
   Title: string;
   description: string;
   playerEnabled: boolean;
+  url?: string;
 }
 
 export default function PlayBar() {
@@ -90,7 +92,10 @@ export default function PlayBar() {
           setLiveEventStreamButtonStatus('play');
         }
 
-        if (activeTrack?.url === liveEventStreamUrl) {
+        if (
+          activeTrack?.url === liveEventStreamData?.url ||
+          activeTrack?.url === defaultLiveEventStreamUrl
+        ) {
           setAirtimeStreamButtonStatus('play');
           setLiveEventStreamButtonStatus('pause');
         }
@@ -106,7 +111,10 @@ export default function PlayBar() {
           setAirtimeStreamButtonStatus('loading');
         }
 
-        if (activeTrack?.url === liveEventStreamUrl) {
+        if (
+          activeTrack?.url === liveEventStreamData?.url ||
+          activeTrack?.url === defaultLiveEventStreamUrl
+        ) {
           setLiveEventStreamButtonStatus('loading');
         }
       }
@@ -241,13 +249,13 @@ export default function PlayBar() {
       {liveEventStreamData && liveEventStreamData.playerEnabled ? (
         <View style={styles.container}>
           <TouchableOpacity
-            onPress={() =>
+            onPress={() => {
               toggleStream({
-                streamUrl: liveEventStreamUrl,
+                streamUrl: liveEventStreamData.url ?? defaultLiveEventStreamUrl,
                 title: liveEventStreamData.Title,
                 artworkUrl: placeholderArtworkUrl,
-              })
-            }>
+              });
+            }}>
             <Icon
               name={getIconFromPlaybackState(liveEventStreamButtonStatus)}
               size={40}
