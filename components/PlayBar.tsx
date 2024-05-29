@@ -18,6 +18,8 @@ import {AppContext} from '../AppContext';
 import {placeholderArtworkUrl} from '../features/media-player/constants';
 import Text from './Text';
 import {StrapiEntryResponse} from '../utils/strapi';
+import {LiveStreamEventData} from '../features/live-event-stream/types';
+import {LiveEventStreamInfoModal} from '../features/live-event-stream/LiveEventStreamInfoModal';
 
 const airtimeStreamUrl =
   'https://dublindigitalradio.out.airtime.pro/dublindigitalradio_a';
@@ -38,13 +40,6 @@ function getIconFromPlaybackState(buttonStatus: ButtonStatus) {
   return 'pausecircle';
 }
 
-interface LiveStreamEventData {
-  Title: string;
-  description: string;
-  playerEnabled: boolean;
-  url?: string;
-}
-
 export default function PlayBar() {
   const {currentShowTitle, currentShowInfo, setShowInfoModalVisible} =
     useContext(AppContext);
@@ -55,6 +50,8 @@ export default function PlayBar() {
   const [liveEventStreamData, setLiveEventStreamData] = useState<
     LiveStreamEventData | undefined
   >();
+  const [liveEventStreamInfoModalVisible, setLiveEventStreamInfoModalVisible] =
+    useState(false);
 
   const {colors} = useTheme();
 
@@ -247,29 +244,48 @@ export default function PlayBar() {
         </View>
       </View>
       {liveEventStreamData && liveEventStreamData.playerEnabled ? (
-        <View style={styles.container}>
-          <TouchableOpacity
-            onPress={() => {
-              toggleStream({
-                streamUrl: liveEventStreamData.url ?? defaultLiveEventStreamUrl,
-                title: liveEventStreamData.Title,
-                artworkUrl: placeholderArtworkUrl,
-              });
-            }}>
-            <Icon
-              name={getIconFromPlaybackState(liveEventStreamButtonStatus)}
-              size={40}
-              style={styles.iconButton}
-            />
-          </TouchableOpacity>
-          <View style={styles.infoContainer}>
-            <View style={styles.showTitleContainer}>
-              <Text numberOfLines={2} style={styles.showTitleText}>
-                Live now: {liveEventStreamData.Title}
-              </Text>
+        <>
+          <LiveEventStreamInfoModal
+            data={liveEventStreamData}
+            isVisible={liveEventStreamInfoModalVisible}
+            setIsVisible={setLiveEventStreamInfoModalVisible}
+          />
+          <View style={styles.container}>
+            <TouchableOpacity
+              onPress={() => {
+                toggleStream({
+                  streamUrl:
+                    liveEventStreamData.url ?? defaultLiveEventStreamUrl,
+                  title: liveEventStreamData.Title,
+                  artworkUrl: placeholderArtworkUrl,
+                });
+              }}>
+              <Icon
+                name={getIconFromPlaybackState(liveEventStreamButtonStatus)}
+                size={40}
+                style={styles.iconButton}
+              />
+            </TouchableOpacity>
+            <View style={styles.infoContainer}>
+              <View style={styles.showTitleContainer}>
+                <Text numberOfLines={2} style={styles.showTitleText}>
+                  Live now: {liveEventStreamData.Title}
+                </Text>
+              </View>
+              <View>
+                <TouchableOpacity
+                  style={styles.showInfoButton}
+                  onPress={() => setLiveEventStreamInfoModalVisible(true)}>
+                  <Icon
+                    name="infocirlceo"
+                    size={20}
+                    style={styles.iconButton}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
+        </>
       ) : null}
     </>
   );
