@@ -23,6 +23,7 @@ import {LiveEventStreamInfoModal} from '../features/live-event-stream/LiveEventS
 
 const airtimeStreamUrl =
   'https://dublindigitalradio.out.airtime.pro/dublindigitalradio_a';
+const radioCultStreamUrl = 'https://dublin-digital-radio.radiocult.fm/stream';
 const defaultLiveEventStreamUrl =
   'https://stream2.dublindigitalradio.com:8001/stream';
 
@@ -43,6 +44,7 @@ function getIconFromPlaybackState(buttonStatus: ButtonStatus) {
 export default function PlayBar() {
   const {currentShowTitle, currentShowInfo, setShowInfoModalVisible} =
     useContext(AppContext);
+  const [scheduledStreamUrl, setScheduledStreamUrl] = useState<string>();
   const [airtimeStreamButtonStatus, setAirtimeStreamButtonStatus] =
     useState<ButtonStatus>('play');
   const [liveEventStreamButtonStatus, setLiveEventStreamButtonStatus] =
@@ -54,6 +56,20 @@ export default function PlayBar() {
     useState(false);
 
   const {colors} = useTheme();
+
+  useEffect(() => {
+    (async () => {
+      await fetch('https://ddr-cms.fly.dev/api/radio-cult-toggle')
+        .then(response => response.json())
+        .then(response => {
+          if (response.data?.attributes.radioculttoggle) {
+            setScheduledStreamUrl(radioCultStreamUrl);
+          } else {
+            setScheduledStreamUrl(airtimeStreamUrl);
+          }
+        });
+    })();
+  }, []);
 
   const fetchAndSetLiveEventStreamData = useCallback(async () => {
     const liveEventStream = await fetch(
@@ -84,7 +100,7 @@ export default function PlayBar() {
     const activeTrack = await TrackPlayer.getActiveTrack();
     if (event.type === TrackPlayerEvent.PlaybackState) {
       if (event.state === TrackPlayerState.Playing) {
-        if (activeTrack?.url === airtimeStreamUrl) {
+        if (activeTrack?.url === scheduledStreamUrl) {
           setAirtimeStreamButtonStatus('pause');
           setLiveEventStreamButtonStatus('play');
         }
@@ -104,7 +120,7 @@ export default function PlayBar() {
       }
 
       if (event.state === TrackPlayerState.Loading) {
-        if (activeTrack?.url === airtimeStreamUrl) {
+        if (activeTrack?.url === scheduledStreamUrl) {
           setAirtimeStreamButtonStatus('loading');
         }
 
@@ -207,13 +223,17 @@ export default function PlayBar() {
     [colors.background, colors.border, colors.text],
   );
 
+  if (!scheduledStreamUrl) {
+    return null;
+  }
+
   return (
     <>
       <View style={styles.container}>
         <TouchableOpacity
           onPress={() =>
             toggleStream({
-              streamUrl: airtimeStreamUrl,
+              streamUrl: scheduledStreamUrl,
               title: currentShowTitle,
               artworkUrl:
                 currentShowInfo?.image?.data?.attributes.url ??

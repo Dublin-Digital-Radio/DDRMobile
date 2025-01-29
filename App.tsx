@@ -26,10 +26,9 @@ import TrackPlayer, {
 import Logo from './assets/logo.svg';
 import {AppContext} from './AppContext';
 import {
-  decodeAirtimeShowName,
   convertAirtimeToCmsShowName,
   fetchShowInfo,
-  getShows,
+  fetchRadioCultLiveShow,
 } from './features/shows/api';
 import PlayBar from './components/PlayBar';
 import HomeScreen from './screens/HomeScreen';
@@ -66,22 +65,21 @@ function App(): JSX.Element {
   const [showInfoModalVisible, setShowInfoModalVisible] = useState(false);
 
   const refreshTrackData = useCallback(async () => {
-    const shows = await getShows();
-    const decodedAirtimeShowName = decodeAirtimeShowName(shows.current.name);
-    setCurrentShowTitle(decodedAirtimeShowName);
-
-    const cmsShowName = convertAirtimeToCmsShowName(shows.current.name);
-
-    const showInfo = await fetchShowInfo(cmsShowName);
-    setCurrentShowInfo(showInfo);
-
-    const currentTrack = await TrackPlayer.getTrack(0);
-    if (currentTrack !== null) {
-      TrackPlayer.updateMetadataForTrack(0, {
-        title: decodedAirtimeShowName,
-        artist: 'DDR',
-        artwork: showInfo?.image?.data?.attributes.url ?? placeholderArtworkUrl,
-      });
+    const liveShow = await fetchRadioCultLiveShow();
+    if (liveShow) {
+      setCurrentShowTitle(liveShow.title);
+      const cmsShowName = convertAirtimeToCmsShowName(liveShow.title);
+      const showInfo = await fetchShowInfo(cmsShowName);
+      setCurrentShowInfo(showInfo);
+      const currentTrack = await TrackPlayer.getTrack(0);
+      if (currentTrack !== null) {
+        TrackPlayer.updateMetadataForTrack(0, {
+          title: liveShow.title,
+          artist: 'DDR',
+          artwork:
+            showInfo?.image?.data?.attributes.url ?? placeholderArtworkUrl,
+        });
+      }
     }
   }, []);
 

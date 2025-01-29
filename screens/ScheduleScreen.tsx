@@ -1,3 +1,4 @@
+import {RADIO_CULT_PUBLIC_API_KEY} from '@env';
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
   AppState,
@@ -6,10 +7,16 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-// The airtime library doesn't have type declarations yet.
-// @ts-expect-error
-import airtime from 'airtime-pro-api';
-import {add, format, isAfter, isBefore} from 'date-fns';
+import {z} from 'zod';
+import {
+  add,
+  format,
+  isAfter,
+  isBefore,
+  startOfDay,
+  endOfDay,
+  isEqual,
+} from 'date-fns';
 import {useFocusEffect, useTheme} from '@react-navigation/native';
 
 import Text from '../components/Text';
@@ -21,46 +28,10 @@ interface Show {
   end_timestamp: string;
 }
 
-interface AirtimeDaySchedule {
+interface WeekSchedule {
   dayName: string;
   shows: Show[];
 }
-
-const ddrAirtime = airtime.init({stationName: 'dublindigitalradio'});
-
-const scheduleByDay = (data: {[dayName: string]: Show[]}) => {
-  const schedule: AirtimeDaySchedule[] = [];
-  const today = new Date();
-  const todayDayName = format(today, 'eeee');
-  const todayDayNameLowerCase = todayDayName.toLowerCase();
-
-  schedule[0] = {
-    dayName: todayDayName,
-    shows: data[todayDayNameLowerCase] ?? [],
-  };
-  let hasPassedSunday = todayDayName === 'sunday';
-  let currentDay = today;
-
-  for (let i = 1; i < 7; i++) {
-    currentDay = add(currentDay, {days: 1});
-    const currDayName = format(currentDay, 'eeee');
-    const currDayNameLowerCase = currDayName.toLowerCase();
-
-    schedule[i] = hasPassedSunday
-      ? {
-          dayName: currDayName,
-          shows: data[`next${currDayNameLowerCase}`] ?? [],
-        }
-      : {
-          dayName: currDayName,
-          shows: data[currDayNameLowerCase] ?? [],
-        };
-    if (currDayNameLowerCase === 'sunday') {
-      hasPassedSunday = true;
-    }
-  }
-  return schedule;
-};
 
 function ScheduleDayRow({
   show,
@@ -108,13 +79,62 @@ function ScheduleDayRow({
   );
 }
 
+const radioCultScheduleSchema = z.object({
+  schedules: z.array(
+    z.object({
+      title: z.string(),
+      start: z.string(),
+      end: z.string(),
+    }),
+  ),
+});
+
 export default function ScheduleScreen() {
-  const [schedule, setSchedule] = useState<AirtimeDaySchedule[]>([]);
+  const [schedule, setSchedule] = useState<WeekSchedule[]>([]);
   const [liveShowIndex, setLiveShowIndex] = useState(-1);
 
   const fetchSchedule = useCallback(async () => {
-    const weekInfo = await ddrAirtime.weekInfo();
-    setSchedule(scheduleByDay(weekInfo));
+    let parsedSchedule: WeekSchedule[] = [];
+    const startDateTimestamp = startOfDay(Date.now()).toISOString();
+    const endDateTimestamp = endOfDay(add(Date.now(), {days: 7})).toISOString();
+
+    await fetch(
+      `https://api.radiocult.fm/api/station/dublin-digital-radio/schedule?startDate=${startDateTimestamp}&endDate=${endDateTimestamp}`,
+      {
+        headers: {
+          'x-api-key': RADIO_CULT_PUBLIC_API_KEY,
+        },
+      },
+    )
+      .then(response => response.json())
+      .then(response => radioCultScheduleSchema.parse(response))
+      .then(response => {
+        let currentDay = startOfDay(Date.now());
+        for (let i = 0; i < 7; i++) {
+          const currentDayEnd = endOfDay(currentDay);
+          parsedSchedule[i] = {
+            dayName: format(currentDay, 'eeee'),
+            shows: response.schedules
+              .filter(show => {
+                const showStartDateTime = new Date(show.start);
+                return (
+                  (isAfter(showStartDateTime, currentDay) ||
+                    isEqual(showStartDateTime, currentDay)) &&
+                  isBefore(showStartDateTime, currentDayEnd)
+                );
+              })
+              .map(show => ({
+                name: show.title,
+                start_timestamp: show.start,
+                end_timestamp: show.end,
+              })),
+          };
+
+          currentDay = add(currentDay, {hours: 24});
+        }
+      });
+
+    setSchedule(parsedSchedule);
   }, []);
 
   const refreshSchedule = useCallback(async () => {
