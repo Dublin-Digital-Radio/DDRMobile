@@ -1,7 +1,6 @@
-// The airtime library doesn't have type declarations yet.
-// @ts-expect-error
-import airtime from 'airtime-pro-api';
 import {decode} from 'html-entities';
+import {z} from 'zod';
+import {RADIO_CULT_PUBLIC_API_KEY} from '@env';
 
 import {ShowInfo} from '../../features/shows/types';
 import {StrapiEntryListResponse} from '../../utils/strapi';
@@ -20,13 +19,57 @@ export function convertAirtimeToCmsShowName(airtimeShowName: string) {
   return decode((trimmedAirtimeShowName ?? '').replace(/\s*\(R\)/, ''));
 }
 
-export async function getShows() {
-  const ddrAirtime = airtime.init({stationName: 'dublindigitalradio'});
+const radioCultLiveShowSchema = z.object({
+  success: z.boolean(),
+  result: z.union([
+    z.object({
+      status: z.literal('schedule'),
+      content: z.object({
+        title: z.string(),
+      }),
+    }),
+    z.object({
+      status: z.literal('defaultPlaylist'),
+      content: z.object({
+        name: z.string(),
+      }),
+    }),
+    z.object({
+      status: z.literal('offAir'),
+      content: z.literal('Off Air'),
+    }),
+  ]),
+});
+
+export async function fetchRadioCultLiveShow() {
   try {
-    const res = await ddrAirtime.liveInfoV2();
-    return res.shows;
-  } catch (err: any) {
-    return;
+    return await fetch(
+      'https://api.radiocult.fm/api/station/dublin-digital-radio/schedule/live',
+      {
+        headers: {
+          'x-api-key': RADIO_CULT_PUBLIC_API_KEY,
+        },
+      },
+    )
+      .then(response => response.json())
+      .then(response => {
+        return radioCultLiveShowSchema.parse(response);
+      })
+      .then(response => {
+        if (response.result.status === 'offAir') {
+          return null;
+        } else if (response.result.status === 'defaultPlaylist') {
+          return {
+            ...response.result.content,
+            title: response.result.content.name,
+          };
+        } else {
+          return response.result.content;
+        }
+      });
+  } catch (error) {
+    console.log(error);
+    return null;
   }
 }
 
