@@ -1535,6 +1535,13 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNNotifee (9.1.8):
+    - React-Core
+    - RNNotifee/NotifeeCore (= 9.1.8)
+  - RNNotifee/NotifeeCore (9.1.8):
+    - React-Core
+  - RNPermissions (5.2.5):
+    - React-Core
   - RNReanimated (3.16.3):
     - DoubleConversion
     - glog
@@ -1718,6 +1725,8 @@ DEPENDENCIES:
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - "RNNotifee (from `../node_modules/@notifee/react-native`)"
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -1860,6 +1869,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNNotifee:
+    :path: "../node_modules/@notifee/react-native"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -1935,6 +1948,8 @@ SPEC CHECKSUMS:
   ReactCodegen: ae99a130606068ed40d1d9c0d5f25fda142a0647
   ReactCommon: 89c87b343deacc8610b099ac764848f0ce937e3e
   RNGestureHandler: 79789b93c9a67c553ecdfb4121e8c267cba12447
+  RNNotifee: 4a6ee5c7deaf00e005050052d73ee6315dff7ec9
+  RNPermissions: 52671349cd2fec20591f3d1ffb5b1cee2b1926e4
   RNReanimated: 365e7d6c1ed443cf8e1b7ba4f0b15dd9f82f052a
   RNScreens: c7ceced6a8384cb9be5e7a5e88e9e714401fd958
   RNSVG: 3d2bdcaef51c8071880a9c0072fe324f4423a3ba
@@ -1942,6 +1957,6 @@ SPEC CHECKSUMS:
   SwiftAudioEx: f6aa653770f3a0d3851edaf8d834a30aee4a7646
   Yoga: f6dc1b6029519815d5516a1241821c6a9074af6d
 
-PODFILE CHECKSUM: 64db6467c1800b7feaa6d2372d242f285105fc66
+PODFILE CHECKSUM: 49eddd04e141a29e81d47ca67fd85a9357911b72
 
 COCOAPODS: 1.15.2
