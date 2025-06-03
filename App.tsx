@@ -26,7 +26,7 @@ import TrackPlayer, {
 import Logo from './assets/logo.svg';
 import {AppContext} from './AppContext';
 import {
-  convertAirtimeToCmsShowName,
+  convertRadioCultToCmsShowName,
   fetchShowInfo,
   fetchRadioCultLiveShow,
 } from './features/shows/api';
@@ -68,7 +68,7 @@ function App(): JSX.Element {
     const liveShow = await fetchRadioCultLiveShow();
     if (liveShow) {
       setCurrentShowTitle(liveShow.title);
-      const cmsShowName = convertAirtimeToCmsShowName(liveShow.title);
+      const cmsShowName = convertRadioCultToCmsShowName(liveShow.title);
       const showInfo = await fetchShowInfo(cmsShowName);
       setCurrentShowInfo(showInfo);
       const currentTrack = await TrackPlayer.getTrack(0);

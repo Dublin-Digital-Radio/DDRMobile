@@ -34,7 +34,7 @@ import {
 import {DefaultTheme, useFocusEffect, useTheme} from '@react-navigation/native';
 
 import Text from '../components/Text';
-import {decodeAirtimeShowName} from '../features/shows/api';
+import {decodeRadioCultShowName} from '../features/shows/api';
 import Modal from 'react-native-modal';
 import notifee, {
   AlarmType,
@@ -139,7 +139,7 @@ function ScheduleDayRow({
       </View>
       <View style={styles.showNameCell}>
         <Text style={isLiveShow ? styles.isLiveShow : {}}>
-          {decodeAirtimeShowName(show.name)}
+          {decodeRadioCultShowName(show.name)}
         </Text>
       </View>
       <View style={styles.actionsCell}>

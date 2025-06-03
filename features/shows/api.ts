@@ -5,18 +5,26 @@ import {RADIO_CULT_PUBLIC_API_KEY} from '@env';
 import {ShowInfo} from '../../features/shows/types';
 import {StrapiEntryListResponse} from '../../utils/strapi';
 
-export function decodeAirtimeShowName(airtimeShowName: string) {
-  return decode(airtimeShowName);
+const alternatingCurrentSuffix = ' ~ Alternating Current';
+
+export function decodeRadioCultShowName(radioCultShowName: string) {
+  return decode(radioCultShowName);
 }
 
-export function convertAirtimeToCmsShowName(airtimeShowName: string) {
-  const trimmedAirtimeShowName = airtimeShowName
-    ? decodeURIComponent(airtimeShowName)
+export function convertRadioCultToCmsShowName(radioCultShowName: string) {
+  const showNameWithoutAlternatingCurrentSuffix = radioCultShowName.endsWith(
+    alternatingCurrentSuffix,
+  )
+    ? radioCultShowName.replace(alternatingCurrentSuffix, '')
+    : radioCultShowName;
+
+  const trimmedRadioCultShowName = radioCultShowName
+    ? decodeURIComponent(showNameWithoutAlternatingCurrentSuffix)
         .split('|')
         .map(showNameFragment => showNameFragment.trim())[0]
     : '';
 
-  return decode((trimmedAirtimeShowName ?? '').replace(/\s*\(R\)/, ''));
+  return decode((trimmedRadioCultShowName ?? '').replace(/\s*\(R\)/, ''));
 }
 
 const radioCultLiveShowSchema = z.object({
