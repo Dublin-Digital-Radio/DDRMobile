@@ -7,13 +7,13 @@ import {useTheme} from '@react-navigation/native';
 import {StrapiEntryResponse, StrapiEntryListResponse} from '../utils/strapi';
 import Text from './Text';
 
-interface Poster {
-  name?: string;
+interface BlogPost {
+  title?: string;
   image: StrapiEntryResponse<{url: string}>;
-  url?: string;
+  slug?: string;
 }
 
-function PosterCarouselItem({item, height}: {item: Poster; height: number}) {
+function PosterCarouselItem({item, height}: {item: BlogPost; height: number}) {
   const {colors} = useTheme();
   const styles = useMemo(
     () =>
@@ -37,15 +37,22 @@ function PosterCarouselItem({item, height}: {item: Poster; height: number}) {
   return (
     <View key={item.image.data?.attributes.url}>
       <TouchableHighlight
-        onPress={item.url ? () => Linking.openURL(item.url!) : undefined}>
+        onPress={
+          item.slug
+            ? () =>
+                Linking.openURL(
+                  `https://listen.dublindigitalradio.com/news-events/${item.slug}`,
+                )
+            : undefined
+        }>
         <View>
           <Image
             style={{width: height, height: height}}
             source={{uri: item.image.data?.attributes.url}}
           />
-          {item.name ? (
+          {item.title ? (
             <View style={styles.posterNameContainer}>
-              <Text style={styles.posterName}>{item.name}</Text>
+              <Text style={styles.posterName}>{item.title}</Text>
             </View>
           ) : null}
         </View>
@@ -55,27 +62,32 @@ function PosterCarouselItem({item, height}: {item: Poster; height: number}) {
 }
 
 export default function PosterCarousel({height}: {height: number}) {
-  const [posters, setPosters] = useState<Poster[]>([]);
+  const [posters, setPosters] = useState<BlogPost[]>([]);
 
   useEffect(() => {
     (async () => {
-      const currentTime = new Date();
-      const posterResults = await fetch(
-        `https://ddr-cms.fly.dev/api/posters?${new URLSearchParams({
-          'filters[active][$eq]': 'true',
-          'filters[displayUntil][$gte]': currentTime.toISOString(),
-          'filters[displayFrom][$lte]': currentTime.toISOString(),
-          populate: '*',
+      const blogPostResults = await fetch(
+        `https://ddr-cms.fly.dev/api/blogs?${new URLSearchParams({
+          'pagination[pageSize]': '2',
+          sort: 'date:desc',
+          'filters[publishedAt][$null]': 'false',
+          'filters[slug][$not][$eq]': '',
+          'fields[0]': 'title',
+          'fields[1]': 'slug',
+          populate: 'image',
         })}`,
       )
         .then(response => response.json())
         .then(
-          postersResponse => postersResponse as StrapiEntryListResponse<Poster>,
+          blogPostsResponse =>
+            blogPostsResponse as StrapiEntryListResponse<BlogPost>,
         )
-        .then(postersResponse => postersResponse.data)
-        .then(posterEntries => posterEntries.map(entry => entry.attributes));
+        .then(blogPostsResponse => blogPostsResponse.data)
+        .then(blogPostEntries =>
+          blogPostEntries.map(entry => entry.attributes),
+        );
 
-      setPosters(posterResults);
+      setPosters(blogPostResults);
     })();
   }, []);
 
