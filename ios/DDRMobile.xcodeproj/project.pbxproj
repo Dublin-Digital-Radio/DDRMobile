@@ -9,15 +9,13 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* DDRMobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* DDRMobileTests.m */; };
 		0C80B921A6F3F58F76C31292 /* libPods-DDRMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-DDRMobile.a */; };
-		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		383AD3282989D6E80026B26B /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 383AD31B2989D5FB0026B26B /* AntDesign.ttf */; };
 		386C2368298548ED0075FC9D /* EnableBridgingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386C2367298548ED0075FC9D /* EnableBridgingHeader.swift */; };
 		38BDDEE02BDA8CFA00C84A7E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 38BDDEDF2BDA8CFA00C84A7E /* PrivacyInfo.xcprivacy */; };
 		666FFCDD6C134A48896FA5BE /* Chivo-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A388569FAB59425E9D03689F /* Chivo-BoldItalic.ttf */; };
-		7699B88040F8A987B510C191 /* libPods-DDRMobile-DDRMobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-DDRMobile-DDRMobileTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		8F7D275D2E18B3260093F113 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7D275C2E18B3260093F113 /* AppDelegate.swift */; };
 		C0E7CF613D9245629808DB4D /* Chivo-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 62DAD60995E24196AAB59A69 /* Chivo-BlackItalic.ttf */; };
 		C19CAC09EF8A486AB0BC1FC7 /* Chivo-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F86A76F95E04C0EB70550F6 /* Chivo-Italic.ttf */; };
 		D1EA731EB7A34B6EB6B0BDB2 /* Chivo-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5325DCA39C5A4C81BA4E60DA /* Chivo-Black.ttf */; };
@@ -42,12 +40,8 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* DDRMobileTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDRMobileTests.m; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* DDRMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDRMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = DDRMobile/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = DDRMobile/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = DDRMobile/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = DDRMobile/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = DDRMobile/main.m; sourceTree = "<group>"; };
-		19F6CBCC0A4E27FBF8BF4A61 /* libPods-DDRMobile-DDRMobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDRMobile-DDRMobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		383AD31B2989D5FB0026B26B /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		386C2366298548ED0075FC9D /* DDRMobile-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DDRMobile-Bridging-Header.h"; sourceTree = "<group>"; };
 		386C2367298548ED0075FC9D /* EnableBridgingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableBridgingHeader.swift; sourceTree = "<group>"; };
@@ -56,11 +50,10 @@
 		3F86A76F95E04C0EB70550F6 /* Chivo-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-Italic.ttf"; path = "../assets/fonts/Chivo-Italic.ttf"; sourceTree = "<group>"; };
 		5325DCA39C5A4C81BA4E60DA /* Chivo-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-Black.ttf"; path = "../assets/fonts/Chivo-Black.ttf"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-DDRMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDRMobile.release.xcconfig"; path = "Target Support Files/Pods-DDRMobile/Pods-DDRMobile.release.xcconfig"; sourceTree = "<group>"; };
-		5B7EB9410499542E8C5724F5 /* Pods-DDRMobile-DDRMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDRMobile-DDRMobileTests.debug.xcconfig"; path = "Target Support Files/Pods-DDRMobile-DDRMobileTests/Pods-DDRMobile-DDRMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-DDRMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDRMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		62DAD60995E24196AAB59A69 /* Chivo-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-BlackItalic.ttf"; path = "../assets/fonts/Chivo-BlackItalic.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = DDRMobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		89C6BE57DB24E9ADA2F236DE /* Pods-DDRMobile-DDRMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDRMobile-DDRMobileTests.release.xcconfig"; path = "Target Support Files/Pods-DDRMobile-DDRMobileTests/Pods-DDRMobile-DDRMobileTests.release.xcconfig"; sourceTree = "<group>"; };
+		8F7D275C2E18B3260093F113 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		912CD38ACDE245F79C627F57 /* Chivo-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-Light.ttf"; path = "../assets/fonts/Chivo-Light.ttf"; sourceTree = "<group>"; };
 		A388569FAB59425E9D03689F /* Chivo-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-BoldItalic.ttf"; path = "../assets/fonts/Chivo-BoldItalic.ttf"; sourceTree = "<group>"; };
 		B9E517DC430D40E3B2311A77 /* Chivo-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Chivo-Regular.ttf"; path = "../assets/fonts/Chivo-Regular.ttf"; sourceTree = "<group>"; };
@@ -74,7 +67,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7699B88040F8A987B510C191 /* libPods-DDRMobile-DDRMobileTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,13 +101,11 @@
 		13B07FAE1A68108700A75B9A /* DDRMobile */ = {
 			isa = PBXGroup;
 			children = (
+				8F7D275C2E18B3260093F113 /* AppDelegate.swift */,
 				383AD3172989D59D0026B26B /* Fonts */,
-				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
-				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = DDRMobile;
 			sourceTree = "<group>";
@@ -140,7 +130,6 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				5DCACB8F33CDC322A6C60F78 /* libPods-DDRMobile.a */,
-				19F6CBCC0A4E27FBF8BF4A61 /* libPods-DDRMobile-DDRMobileTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -193,8 +182,6 @@
 			children = (
 				3B4392A12AC88292D35C810B /* Pods-DDRMobile.debug.xcconfig */,
 				5709B34CF0A7D63546082F79 /* Pods-DDRMobile.release.xcconfig */,
-				5B7EB9410499542E8C5724F5 /* Pods-DDRMobile-DDRMobileTests.debug.xcconfig */,
-				89C6BE57DB24E9ADA2F236DE /* Pods-DDRMobile-DDRMobileTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -206,12 +193,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "DDRMobileTests" */;
 			buildPhases = (
-				A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */,
-				F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -344,28 +328,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDRMobile/Pods-DDRMobile-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-DDRMobile-DDRMobileTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -388,23 +350,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DDRMobile-DDRMobileTests/Pods-DDRMobile-DDRMobileTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DDRMobile-DDRMobileTests/Pods-DDRMobile-DDRMobileTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDRMobile-DDRMobileTests/Pods-DDRMobile-DDRMobileTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -420,23 +365,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDRMobile/Pods-DDRMobile-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DDRMobile-DDRMobileTests/Pods-DDRMobile-DDRMobileTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DDRMobile-DDRMobileTests/Pods-DDRMobile-DDRMobileTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDRMobile-DDRMobileTests/Pods-DDRMobile-DDRMobileTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -473,8 +401,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
-				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				8F7D275D2E18B3260093F113 /* AppDelegate.swift in Sources */,
 				386C2368298548ED0075FC9D /* EnableBridgingHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -492,7 +419,6 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-DDRMobile-DDRMobileTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -520,7 +446,6 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-DDRMobile-DDRMobileTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
