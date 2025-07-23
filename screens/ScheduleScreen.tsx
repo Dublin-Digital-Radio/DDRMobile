@@ -11,13 +11,13 @@ import {
   Alert,
   AppState,
   Button,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   TouchableHighlight,
   useColorScheme,
   View,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {openSettings} from 'react-native-permissions';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {z} from 'zod';
@@ -462,9 +462,6 @@ export default function ScheduleScreen() {
   const styles = useMemo(
     () =>
       StyleSheet.create({
-        flexContainer: {
-          flex: 1,
-        },
         scheduleContainer: {
           paddingHorizontal: 8,
         },
@@ -485,7 +482,7 @@ export default function ScheduleScreen() {
 
   if (schedule.length === 0 || triggerNotificationIds === undefined) {
     return (
-      <SafeAreaView style={[styles.flexContainer, styles.loadingTextContainer]}>
+      <SafeAreaView style={styles.loadingTextContainer}>
         <Text style={styles.loadingText}>Loading...</Text>
       </SafeAreaView>
     );
@@ -500,7 +497,7 @@ export default function ScheduleScreen() {
         reminderModalShow,
         setReminderModalShow,
       }}>
-      <SafeAreaView style={styles.flexContainer}>
+      <SafeAreaView>
         <ScrollView>
           <View style={styles.scheduleContainer}>
             {schedule.map((day, dayIndex) => {

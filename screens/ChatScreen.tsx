@@ -1,12 +1,6 @@
 import React, {useMemo} from 'react';
-import {
-  Linking,
-  Platform,
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  View,
-} from 'react-native';
+import {Linking, Platform, Pressable, StyleSheet, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
@@ -27,7 +21,6 @@ export default function ChatScreen() {
     () =>
       StyleSheet.create({
         rootView: {
-          flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
         },

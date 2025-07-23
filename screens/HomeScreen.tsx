@@ -1,7 +1,6 @@
 import React, {useCallback, useContext, useMemo} from 'react';
 import {
   Image,
-  SafeAreaView,
   StatusBar,
   StyleSheet,
   TouchableHighlight,
@@ -9,6 +8,7 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {useFocusEffect, useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';

@@ -11,6 +11,7 @@ import {
   DefaultTheme,
   DarkTheme,
 } from '@react-navigation/native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {
   createBottomTabNavigator,
   BottomTabBar,
@@ -56,7 +57,7 @@ function HomeTabIcon({size}: {size: number}) {
   return <Logo width={size} height={size} />;
 }
 
-function App(): JSX.Element {
+function App() {
   const isDarkMode = useColorScheme() === 'dark';
   const {discordInviteUrl, discordInviteDeepLinkUri} =
     useFetchDiscordInviteUrl();
@@ -176,68 +177,70 @@ function App(): JSX.Element {
   }, [refreshTrackData]);
 
   return (
-    <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
-      <AppContext.Provider
-        value={{
-          currentShowTitle,
-          setCurrentShowTitle,
-          currentShowInfo,
-          setCurrentShowInfo,
-          refreshTrackData,
-          showInfoModalVisible,
-          setShowInfoModalVisible,
-        }}>
-        <ShowInfoModal />
-        <Tab.Navigator
-          tabBar={CustomBottomTabBar}
-          screenOptions={({route}) => ({
-            headerShown: false,
-            // Below is the maintainer's recommended way to define tabBarIcon
-            // eslint-disable-next-line react/no-unstable-nested-components
-            tabBarIcon: ({color, size}) => {
-              let iconName;
+    <SafeAreaProvider>
+      <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
+        <AppContext.Provider
+          value={{
+            currentShowTitle,
+            setCurrentShowTitle,
+            currentShowInfo,
+            setCurrentShowInfo,
+            refreshTrackData,
+            showInfoModalVisible,
+            setShowInfoModalVisible,
+          }}>
+          <ShowInfoModal />
+          <Tab.Navigator
+            tabBar={CustomBottomTabBar}
+            screenOptions={({route}) => ({
+              headerShown: false,
+              // Below is the maintainer's recommended way to define tabBarIcon
+              // eslint-disable-next-line react/no-unstable-nested-components
+              tabBarIcon: ({color, size}) => {
+                let iconName;
 
-              if (route.name === 'Home') {
-                iconName = 'home';
-              }
+                if (route.name === 'Home') {
+                  iconName = 'home';
+                }
 
-              if (route.name === 'Schedule') {
-                iconName = 'calendar';
-              }
+                if (route.name === 'Schedule') {
+                  iconName = 'calendar';
+                }
 
-              if (route.name === 'Chat') {
-                iconName = 'wechat';
-              }
+                if (route.name === 'Chat') {
+                  iconName = 'wechat';
+                }
 
-              return iconName ? (
-                <Icon name={iconName} size={size} color={color} />
-              ) : null;
-            },
-            tabBarActiveTintColor: isDarkMode ? 'white' : 'black',
-            tabBarInactiveTintColor: 'gray',
-            tabBarLabelStyle: {
-              fontFamily: 'Chivo-Regular',
-              textTransform: 'uppercase',
-            },
-          })}>
-          <Tab.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{
-              tabBarIcon: HomeTabIcon,
-            }}
-          />
-          <Tab.Screen name="Schedule" component={ScheduleScreen} />
-          <Tab.Screen
-            name="Chat"
-            component={ChatScreen}
-            options={({navigation}) => ({
-              tabBarButton: chatTabBarButtonFactory(navigation),
-            })}
-          />
-        </Tab.Navigator>
-      </AppContext.Provider>
-    </NavigationContainer>
+                return iconName ? (
+                  <Icon name={iconName} size={size} color={color} />
+                ) : null;
+              },
+              tabBarActiveTintColor: isDarkMode ? 'white' : 'black',
+              tabBarInactiveTintColor: 'gray',
+              tabBarLabelStyle: {
+                fontFamily: 'Chivo-Regular',
+                textTransform: 'uppercase',
+              },
+            })}>
+            <Tab.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{
+                tabBarIcon: HomeTabIcon,
+              }}
+            />
+            <Tab.Screen name="Schedule" component={ScheduleScreen} />
+            <Tab.Screen
+              name="Chat"
+              component={ChatScreen}
+              options={({navigation}) => ({
+                tabBarButton: chatTabBarButtonFactory(navigation),
+              })}
+            />
+          </Tab.Navigator>
+        </AppContext.Provider>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
 
