@@ -1,0 +1,1 @@
+We can't upgrade to RN 0.80.0 yet because we'd have to upgrade react-native-reanimated to 4.0.0 but it doesn't support the legacy architecture anymore while react-native-track-player hasn't release a stable version that supports the new architecture yet
