@@ -22,8 +22,6 @@ import {StrapiEntryResponse} from '../utils/strapi';
 import {LiveStreamEventData} from '../features/live-event-stream/types';
 import {LiveEventStreamInfoModal} from '../features/live-event-stream/LiveEventStreamInfoModal';
 
-const airtimeStreamUrl =
-  'https://dublindigitalradio.out.airtime.pro/dublindigitalradio_a';
 const radioCultStreamUrl = 'https://dublin-digital-radio.radiocult.fm/stream';
 const defaultLiveEventStreamUrl =
   'https://stream2.dublindigitalradio.com:8001/stream';
@@ -45,8 +43,7 @@ function getIconFromPlaybackState(buttonStatus: ButtonStatus) {
 export default function PlayBar() {
   const {currentShowTitle, currentShowInfo, setShowInfoModalVisible} =
     useContext(AppContext);
-  const [scheduledStreamUrl, setScheduledStreamUrl] = useState<string>();
-  const [airtimeStreamButtonStatus, setAirtimeStreamButtonStatus] =
+  const [scheduledStreamButtonStatus, setScheduledStreamButtonStatus] =
     useState<ButtonStatus>('play');
   const [liveEventStreamButtonStatus, setLiveEventStreamButtonStatus] =
     useState<ButtonStatus>('play');
@@ -57,20 +54,6 @@ export default function PlayBar() {
     useState(false);
 
   const {colors} = useTheme();
-
-  useEffect(() => {
-    (async () => {
-      await fetch(`${DDR_CMS_URL}/radio-cult-toggle`)
-        .then(response => response.json())
-        .then(response => {
-          if (response.data?.attributes.radioculttoggle) {
-            setScheduledStreamUrl(radioCultStreamUrl);
-          } else {
-            setScheduledStreamUrl(airtimeStreamUrl);
-          }
-        });
-    })();
-  }, []);
 
   const fetchAndSetLiveEventStreamData = useCallback(async () => {
     const liveEventStream = await fetch(`${DDR_CMS_URL}/live-stream-config`)
@@ -99,8 +82,8 @@ export default function PlayBar() {
     const activeTrack = await TrackPlayer.getActiveTrack();
     if (event.type === TrackPlayerEvent.PlaybackState) {
       if (event.state === TrackPlayerState.Playing) {
-        if (activeTrack?.url === scheduledStreamUrl) {
-          setAirtimeStreamButtonStatus('pause');
+        if (activeTrack?.url === radioCultStreamUrl) {
+          setScheduledStreamButtonStatus('pause');
           setLiveEventStreamButtonStatus('play');
         }
 
@@ -108,19 +91,19 @@ export default function PlayBar() {
           activeTrack?.url === liveEventStreamData?.url ||
           activeTrack?.url === defaultLiveEventStreamUrl
         ) {
-          setAirtimeStreamButtonStatus('play');
+          setScheduledStreamButtonStatus('play');
           setLiveEventStreamButtonStatus('pause');
         }
       }
 
       if (event.state === TrackPlayerState.Paused) {
-        setAirtimeStreamButtonStatus('play');
+        setScheduledStreamButtonStatus('play');
         setLiveEventStreamButtonStatus('play');
       }
 
       if (event.state === TrackPlayerState.Loading) {
-        if (activeTrack?.url === scheduledStreamUrl) {
-          setAirtimeStreamButtonStatus('loading');
+        if (activeTrack?.url === radioCultStreamUrl) {
+          setScheduledStreamButtonStatus('loading');
         }
 
         if (
@@ -222,17 +205,13 @@ export default function PlayBar() {
     [colors.background, colors.border, colors.text],
   );
 
-  if (!scheduledStreamUrl) {
-    return null;
-  }
-
   return (
     <>
       <View style={styles.container}>
         <TouchableOpacity
           onPress={() =>
             toggleStream({
-              streamUrl: scheduledStreamUrl,
+              streamUrl: radioCultStreamUrl,
               title: currentShowTitle,
               artworkUrl:
                 currentShowInfo?.image?.data?.attributes.url ??
@@ -240,7 +219,7 @@ export default function PlayBar() {
             })
           }>
           <Icon
-            name={getIconFromPlaybackState(airtimeStreamButtonStatus)}
+            name={getIconFromPlaybackState(scheduledStreamButtonStatus)}
             size={40}
             style={styles.iconButton}
           />
