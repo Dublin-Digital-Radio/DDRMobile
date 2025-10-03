@@ -1,8 +1,9 @@
+import {DDR_CMS_URL} from '@env';
 import {useEffect, useState} from 'react';
 
 import {StrapiEntryResponse} from '../../utils/strapi';
 
-const discordInviteApiUrl = 'https://ddr-cms.fly.dev/api/strapi-invite-link';
+const discordInviteApiUrl = `${DDR_CMS_URL}/strapi-invite-link`;
 
 export function useFetchDiscordInviteUrl() {
   const [discordInviteUrl, setDiscordInviteUrl] = useState<string>();

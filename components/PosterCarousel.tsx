@@ -1,3 +1,4 @@
+import {DDR_CMS_URL} from '@env';
 import React, {useEffect, useMemo, useState} from 'react';
 import {Image, Linking, View, StyleSheet} from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
@@ -67,7 +68,7 @@ export default function PosterCarousel({height}: {height: number}) {
   useEffect(() => {
     (async () => {
       const blogPostResults = await fetch(
-        `https://ddr-cms.fly.dev/api/blogs?${new URLSearchParams({
+        `${DDR_CMS_URL}/blogs?${new URLSearchParams({
           'pagination[pageSize]': '2',
           sort: 'date:desc',
           'filters[publishedAt][$null]': 'false',

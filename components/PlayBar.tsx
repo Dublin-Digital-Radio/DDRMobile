@@ -1,3 +1,4 @@
+import {DDR_CMS_URL} from '@env';
 import React, {
   useCallback,
   useContext,
@@ -59,7 +60,7 @@ export default function PlayBar() {
 
   useEffect(() => {
     (async () => {
-      await fetch('https://ddr-cms.fly.dev/api/radio-cult-toggle')
+      await fetch(`${DDR_CMS_URL}/radio-cult-toggle`)
         .then(response => response.json())
         .then(response => {
           if (response.data?.attributes.radioculttoggle) {
@@ -72,9 +73,7 @@ export default function PlayBar() {
   }, []);
 
   const fetchAndSetLiveEventStreamData = useCallback(async () => {
-    const liveEventStream = await fetch(
-      'https://ddr-cms.fly.dev/api/live-stream-config',
-    )
+    const liveEventStream = await fetch(`${DDR_CMS_URL}/live-stream-config`)
       .then(response => response.json())
       .then(response => response as StrapiEntryResponse<LiveStreamEventData>)
       .then(response => response.data?.attributes);

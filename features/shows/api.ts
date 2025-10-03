@@ -1,6 +1,6 @@
 import {decode} from 'html-entities';
 import {z} from 'zod';
-import {RADIO_CULT_PUBLIC_API_KEY} from '@env';
+import {DDR_CMS_URL, RADIO_CULT_PUBLIC_API_KEY} from '@env';
 
 import {ShowInfo} from '../../features/shows/types';
 import {StrapiEntryListResponse} from '../../utils/strapi';
@@ -83,7 +83,7 @@ export async function fetchRadioCultLiveShow() {
 
 export async function fetchShowInfo(showName: string) {
   return await fetch(
-    `https://ddr-cms.fly.dev/api/shows?${new URLSearchParams({
+    `${DDR_CMS_URL}/shows?${new URLSearchParams({
       'filters[name][$eqi]': showName,
       populate: '*',
     })}`,
