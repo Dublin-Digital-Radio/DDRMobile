@@ -5,6 +5,7 @@ import {
   Platform,
   Pressable,
   useColorScheme,
+  View,
 } from 'react-native';
 import {
   NavigationContainer,
@@ -23,6 +24,9 @@ import TrackPlayer, {
   Capability as TrackPlayerCapability,
   AppKilledPlaybackBehavior,
 } from 'react-native-track-player';
+import semver from 'semver';
+
+import {version as currentVersion} from './package.json';
 
 import Logo from './assets/logo.svg';
 import {AppContext} from './AppContext';
@@ -39,8 +43,21 @@ import ShowInfoModal from './features/shows/ShowInfoModal';
 import {placeholderArtworkUrl} from './features/media-player/constants';
 import ChatScreen from './screens/ChatScreen';
 import {useFetchDiscordInviteUrl} from './features/chat/useFetchDiscordInviteUrl';
+import {DDR_CMS_URL} from '@env';
+import {StrapiEntryResponse} from './utils/strapi';
+import Text from './components/Text';
 
-const discordOnWebsiteUrl = 'https://listen.dublindigitalradio.com/discord';
+interface Config {
+  minMobileAppVersion: string | undefined;
+}
+
+const discordOnWebsiteUrl = 'https://listen.dublindigitalradio.com/chat-box';
+const appStoreListingUrl =
+  Platform.OS === 'ios'
+    ? 'https://apps.apple.com/app/dublin-digital-radio/id1673127527'
+    : Platform.OS === 'android'
+    ? 'https://play.google.com/store/apps/details?id=com.dublindigitalradio.ddrmobile'
+    : undefined;
 
 const Tab = createBottomTabNavigator();
 
@@ -59,11 +76,27 @@ function HomeTabIcon({size}: {size: number}) {
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
+  const [config, setConfig] = useState<Config>();
   const {discordInviteUrl, discordInviteDeepLinkUri} =
     useFetchDiscordInviteUrl();
   const [currentShowTitle, setCurrentShowTitle] = useState('...');
   const [currentShowInfo, setCurrentShowInfo] = useState<ShowInfo>();
   const [showInfoModalVisible, setShowInfoModalVisible] = useState(false);
+
+  const fetchConfig = useCallback(() => {
+    return fetch(`${DDR_CMS_URL}/config`)
+      .then(response => response.json())
+      .then(
+        response => (response as StrapiEntryResponse<Config>).data?.attributes,
+      );
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const fetchedConfig = await fetchConfig();
+      setConfig(fetchedConfig);
+    })();
+  }, [fetchConfig]);
 
   const refreshTrackData = useCallback(async () => {
     const liveShow = await fetchRadioCultLiveShow();
@@ -175,6 +208,54 @@ function App() {
 
     return () => appStateSubscription.remove();
   }, [refreshTrackData]);
+
+  if (!config) {
+    return null;
+  }
+
+  console.log({'config.minMobileAppVersion': config.minMobileAppVersion});
+
+  if (
+    config.minMobileAppVersion &&
+    semver.valid(config.minMobileAppVersion) &&
+    semver.lt(currentVersion, config.minMobileAppVersion)
+  ) {
+    return (
+      <SafeAreaProvider>
+        <View
+          style={{
+            display: 'flex',
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <View style={{marginBottom: 12}}>
+            <Text style={{fontSize: 20, color: isDarkMode ? 'white' : 'black'}}>
+              Your app version is out of date.
+            </Text>
+          </View>
+          {appStoreListingUrl ? (
+            <View>
+              <Pressable
+                onPress={() => {
+                  Linking.openURL(appStoreListingUrl);
+                }}>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    color: isDarkMode ? 'white' : 'black',
+                    textDecorationLine: 'underline',
+                    textDecorationStyle: 'solid',
+                  }}>
+                  UPDATE
+                </Text>
+              </Pressable>
+            </View>
+          ) : null}
+        </View>
+      </SafeAreaProvider>
+    );
+  }
 
   return (
     <SafeAreaProvider>
