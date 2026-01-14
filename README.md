@@ -1,3 +1,5 @@
+This repository has been moved to https://codeberg.org/Dublin-Digital-Radio/DDRMobile.
+
 # The DDR Mobile App
 
 A React Native client for DDR.
